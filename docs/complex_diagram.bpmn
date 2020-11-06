@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0gxu8em" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="7.3.0">
   <bpmn:collaboration id="Collaboration_18hj7p6">
-    <bpmn:participant id="Participant_13o2g9m" name="Beverager" processRef="Process_1cfdxzp" />
-    <bpmn:participant id="Participant_02z3g5l" name="Bottlener" processRef="Process_1wbyhrn" />
+    <bpmn:participant id="Participant_13o2g9m" name="KSede" processRef="Process_1cfdxzp" />
+    <bpmn:participant id="Participant_02z3g5l" name="BottleFlip" processRef="Process_1wbyhrn" />
     <bpmn:messageFlow id="Flow_052qgzh" sourceRef="Event_108ss8k" targetRef="Event_1tzv5us" />
     <bpmn:messageFlow id="Flow_04hg2up" name="Wares" sourceRef="Activity_1kwb0e9" targetRef="Activity_1acqn0k" />
     <bpmn:messageFlow id="Flow_16ycfiv" sourceRef="Event_0exy3rj" targetRef="Event_1wsjjcr" />
@@ -349,6 +349,10 @@
       <bpmndi:BPMNShape id="Lane_1k9mrd2_di" bpmnElement="Lane_1k9mrd2" isHorizontal="true">
         <dc:Bounds x="190" y="1100" width="1910" height="220" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0jqzynz_di" bpmnElement="Flow_0jqzynz">
+        <di:waypoint x="288" y="720" />
+        <di:waypoint x="482" y="720" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0deo6bz_di" bpmnElement="Flow_0deo6bz">
         <di:waypoint x="1968" y="1170" />
         <di:waypoint x="2022" y="1170" />
@@ -392,10 +396,6 @@
       <bpmndi:BPMNEdge id="Flow_0so52ji_di" bpmnElement="Flow_0so52ji">
         <di:waypoint x="518" y="720" />
         <di:waypoint x="580" y="720" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0jqzynz_di" bpmnElement="Flow_0jqzynz">
-        <di:waypoint x="288" y="720" />
-        <di:waypoint x="482" y="720" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Gateway_1p4f0b2_di" bpmnElement="Gateway_0hgb4g1">
         <dc:Bounds x="759" y="875" width="50" height="50" />
@@ -495,11 +495,6 @@
         <di:waypoint x="1210" y="128" />
         <di:waypoint x="1282" y="128" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0nt76b6_di" bpmnElement="DataOutputAssociation_0nt76b6">
-        <di:waypoint x="340" y="390" />
-        <di:waypoint x="340" y="367" />
-        <di:waypoint x="412" y="367" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_1h10olr_di" bpmnElement="DataOutputAssociation_1h10olr">
         <di:waypoint x="1452" y="420" />
         <di:waypoint x="1418" y="420" />
@@ -508,6 +503,11 @@
         <di:waypoint x="1590" y="380" />
         <di:waypoint x="1590" y="360" />
         <di:waypoint x="1792" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0nt76b6_di" bpmnElement="DataOutputAssociation_0nt76b6">
+        <di:waypoint x="340" y="390" />
+        <di:waypoint x="340" y="367" />
+        <di:waypoint x="412" y="367" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_1dcd7qb_di" bpmnElement="DataOutputAssociation_1dcd7qb">
         <di:waypoint x="1300" y="1170" />
