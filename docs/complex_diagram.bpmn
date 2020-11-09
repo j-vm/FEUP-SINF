@@ -19,8 +19,8 @@
         <bpmn:flowNodeRef>Activity_0mgohza</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_19onae9</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0i92qbx</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Event_0udth0y</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0t3xuhz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0udth0y</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1jvtkgu" name="Logistics Dept.">
         <bpmn:flowNodeRef>Event_1tzv5us</bpmn:flowNodeRef>
@@ -76,9 +76,6 @@
       <bpmn:outgoing>Flow_19elecz</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_00bdggb" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="Event_0udth0y" name="End Order Process">
-      <bpmn:incoming>Flow_19elecz</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0mhtqv6" sourceRef="Event_1mkp0rw" targetRef="Activity_0t3xuhz" />
     <bpmn:sequenceFlow id="Flow_0992kgz" sourceRef="Event_1tzv5us" targetRef="Activity_1acqn0k" />
     <bpmn:sequenceFlow id="Flow_1fhi8gm" sourceRef="Activity_1acqn0k" targetRef="Event_0exy3rj" />
@@ -86,7 +83,7 @@
     <bpmn:sequenceFlow id="Flow_13ahdch" sourceRef="Event_17mv761" targetRef="Activity_0mgohza" />
     <bpmn:sequenceFlow id="Flow_16yth3p" sourceRef="Activity_0mgohza" targetRef="Event_19onae9" />
     <bpmn:sequenceFlow id="Flow_19elecz" sourceRef="Event_0i92qbx" targetRef="Event_0udth0y" />
-    <bpmn:startEvent id="Event_1mkp0rw" name="Start Order Process">
+    <bpmn:startEvent id="Event_1mkp0rw" name="Start Order Workflow">
       <bpmn:outgoing>Flow_0mhtqv6</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:task id="Activity_0t3xuhz" name="Generate Buy Order">
@@ -98,6 +95,10 @@
     </bpmn:task>
     <bpmn:dataObjectReference id="DataObjectReference_0jlkmy2" name="Buy Order" dataObjectRef="DataObject_0nw1k2e" />
     <bpmn:dataObject id="DataObject_0nw1k2e" />
+    <bpmn:endEvent id="Event_0udth0y" name="End Order Workflow">
+      <bpmn:incoming>Flow_19elecz</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_0o030o7" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmn:process id="Process_1wbyhrn">
     <bpmn:laneSet id="LaneSet_10k62by">
@@ -192,9 +193,6 @@
     </bpmn:intermediateThrowEvent>
     <bpmn:dataObjectReference id="DataObjectReference_04f95xu" name="Payment Receipt" dataObjectRef="DataObject_0fjog59" />
     <bpmn:dataObject id="DataObject_0fjog59" />
-    <bpmn:endEvent id="Event_0km0o7m" name="End Sell Process">
-      <bpmn:incoming>Flow_0deo6bz</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0so52ji" sourceRef="Event_1vwi96u" targetRef="Activity_00fl83z" />
     <bpmn:sequenceFlow id="Flow_0l46drx" sourceRef="Activity_138v6us" targetRef="Gateway_0hgb4g1" />
     <bpmn:sequenceFlow id="Flow_0pzxegb" sourceRef="Gateway_0hgb4g1" targetRef="Activity_1rkbqsp" />
@@ -212,9 +210,13 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_1fj5ej7" />
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_0jqzynz" sourceRef="Event_1yte5v8" targetRef="Event_1vwi96u" />
-    <bpmn:startEvent id="Event_1yte5v8" name="Start Sell Process">
+    <bpmn:startEvent id="Event_1yte5v8" name="Start Sell Workflow">
       <bpmn:outgoing>Flow_0jqzynz</bpmn:outgoing>
     </bpmn:startEvent>
+    <bpmn:endEvent id="Event_0km0o7m" name="End Sell Workflow">
+      <bpmn:incoming>Flow_0deo6bz</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_0uf1ss1" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_18hj7p6">
@@ -316,12 +318,6 @@
           <dc:Bounds x="1908" y="372" width="84" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0udth0y_di" bpmnElement="Event_0udth0y">
-        <dc:Bounds x="2022" y="402" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2016" y="445" width="50" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1mkp0rw_di" bpmnElement="Event_1mkp0rw">
         <dc:Bounds x="252" y="202" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -335,6 +331,12 @@
         <dc:Bounds x="412" y="345" width="36" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="464" y="363" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qxgg90_di" bpmnElement="Event_0udth0y">
+        <dc:Bounds x="2022" y="402" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2016" y="445" width="50" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_02z3g5l_di" bpmnElement="Participant_02z3g5l" isHorizontal="true">
@@ -472,12 +474,6 @@
           <dc:Bounds x="1859" y="1263" width="81" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0km0o7m_di" bpmnElement="Event_0km0o7m">
-        <dc:Bounds x="2022" y="1152" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2000" y="1195" width="82" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_01uwiqu_di" bpmnElement="Event_1vwi96u">
         <dc:Bounds x="482" y="702" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -487,7 +483,13 @@
       <bpmndi:BPMNShape id="Event_1yte5v8_di" bpmnElement="Event_1yte5v8">
         <dc:Bounds x="252" y="702" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="227" y="745" width="87" height="14" />
+          <dc:Bounds x="247" y="745" width="48" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ftt3mi_di" bpmnElement="Event_0km0o7m">
+        <dc:Bounds x="2022" y="1152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1997" y="1195" width="89" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0ve0q9i_di" bpmnElement="DataOutputAssociation_0ve0q9i">
