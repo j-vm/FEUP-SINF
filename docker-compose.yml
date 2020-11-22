@@ -1,0 +1,45 @@
+#   Source and instructions: https://git.fe.up.pt/lbaw/template-postgresql
+version: "3"
+services:
+  postgres:
+    image: postgres:13.1
+    restart: always
+    environment:
+      POSTGRES_USER: sinf
+      POSTGRES_PASSWORD: intercompany
+
+  backend:
+    build: ./backend
+    image: backend:dev
+    depends_on:
+      - postgres
+    volumes:
+      - "./backend/src:/usr/src/app/src"
+
+  frontend:
+    build: ./frontend
+    image: frontend:dev
+    depends_on:
+      - backend
+    volumes:
+      - "./frontend/src:/usr/src/app/src"
+
+  caddy:
+    image: caddy:2.2.1
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - "./Caddyfile:/etc/caddy/Caddyfile"
+    ports:
+      - "3000:3000"
+
+  pgadmin:
+    image: dpage/pgadmin4:4.28
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "sinf@example.com"
+      PGADMIN_DEFAULT_PASSWORD: "intercompany"
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres

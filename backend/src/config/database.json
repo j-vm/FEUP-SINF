@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "sinf",
+    "password": "intercompany",
+    "database": "intercompany_development",
+    "host": "postgres",
+    "dialect": "postgres"
+  }
+}
