@@ -13,6 +13,11 @@ if (!JWT_SECRET) {
 const koa = require("koa");
 const app = new koa();
 
+if (isDev) {
+  const logger = require("koa-logger");
+  app.use(new logger());
+}
+
 const bodyParser = require("koa-bodyparser");
 app.use(bodyParser());
 
