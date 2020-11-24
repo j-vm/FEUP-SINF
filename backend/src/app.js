@@ -4,23 +4,40 @@ if (isDev) {
   dotenv.config();
 }
 
-const {
-  APP_PORT,
-  JWT_SECRET,
-  JASMIN_APP1_KEY,
-  JASMIN_APP1_SECRET,
-} = process.env;
-if (!JWT_SECRET || !JASMIN_APP1_KEY || !JASMIN_APP1_SECRET) {
-  console.error(
-    "ERROR: JWT_SECRET, JASMIN_APP1_KEY, and JASMIN_APP1_SECRET environment variables must be set"
-  );
-  process.exit(1);
+// check if all required environment variables have been set
+const REQUIRED_ENV_VARIABLES = [
+  "JWT_SECRET",
+  "JASMIN_APP1_KEY",
+  "JASMIN_APP1_SECRET",
+  "JASMIN_ACCOUNT1",
+  "JASMIN_SUBSCRIPTION1",
+  "JASMIN_APP2_KEY",
+  "JASMIN_APP2_SECRET",
+  "JASMIN_ACCOUNT2",
+  "JASMIN_SUBSCRIPTION2",
+];
+
+for (const envVar of REQUIRED_ENV_VARIABLES) {
+  if (!process.env[envVar]) {
+    console.error(
+      `ERROR: environmental variable ${envVar} is required but has not been defined!`
+    );
+    const required = REQUIRED_ENV_VARIABLES.join(", ");
+    console.warn(
+      `WARNING: the following variables must be set:\n\t${required}`
+    );
+    process.exit(1);
+  }
 }
 
-// to test authentication flow
-// require("./jasmin").then((authToken) =>
-//   console.log(JSON.stringify(authToken.token))
-// );
+// to test web api flow
+// const { client1 } = require("./jasmin");
+// const etc = async () => {
+//   const client = client1();
+//   const companies = await client.getCompanies();
+//   console.log(companies);
+// };
+// etc();
 
 const koa = require("koa");
 const app = new koa();
@@ -47,9 +64,9 @@ app.use(function (ctx, next) {
 });
 
 const jwt = require("koa-jwt");
-app.use(jwt({ secret: JWT_SECRET }).unless({ path: /^\/login$/ }));
+app.use(jwt({ secret: process.env.JWT_SECRET }).unless({ path: /^\/login$/ }));
 
 const router = require("./router");
 app.use(router.routes());
 
-app.listen(APP_PORT || 3000);
+app.listen(process.env.APP_PORT || 3000);
