@@ -4,11 +4,23 @@ if (isDev) {
   dotenv.config();
 }
 
-const { APP_PORT, JWT_SECRET } = process.env;
-if (!JWT_SECRET) {
-  console.error("ERROR: JWT_SECRET variable must be set");
+const {
+  APP_PORT,
+  JWT_SECRET,
+  JASMIN_APP1_KEY,
+  JASMIN_APP1_SECRET,
+} = process.env;
+if (!JWT_SECRET || !JASMIN_APP1_KEY || !JASMIN_APP1_SECRET) {
+  console.error(
+    "ERROR: JWT_SECRET, JASMIN_APP1_KEY, and JASMIN_APP1_SECRET environment variables must be set"
+  );
   process.exit(1);
 }
+
+// to test authentication flow
+// require("./jasmin").then((authToken) =>
+//   console.log(JSON.stringify(authToken.token))
+// );
 
 const koa = require("koa");
 const app = new koa();

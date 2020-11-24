@@ -21,14 +21,16 @@
     "koa-jwt": "4.0.0",
     "koa-logger": "3.2.1",
     "koa-router": "10.0.0",
+    "node-fetch": "2.6.1",
     "pg": "8.5.1",
     "pg-hstore": "2.3.3",
     "secure-password": "4.0.0",
-    "sequelize": "6.3.5"
+    "sequelize": "6.3.5",
+    "simple-oauth2": "4.2.0"
   },
   "devDependencies": {
-    "prettier": "2.2.0",
     "nodemon": "2.0.6",
+    "prettier": "2.2.0",
     "sequelize-cli": "6.2.0"
   }
 }
