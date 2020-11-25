@@ -47,6 +47,13 @@ if (isDev) {
   app.use(new logger());
 }
 
+const koaJson = require("koa-json");
+if (isDev) {
+  app.use(koaJson());
+} else {
+  app.use(koaJson({ pretty: false, param: "pretty-print" }));
+}
+
 const bodyParser = require("koa-bodyparser");
 app.use(bodyParser());
 

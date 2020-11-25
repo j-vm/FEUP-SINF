@@ -9,4 +9,13 @@ root.get("/hello", (ctx) => {
   ctx.body = "hello";
 });
 
+const { client1, client2 } = require("./jasmin");
+const companyRouter = require("./routes/company");
+
+const company1 = companyRouter(client1());
+root.use("/companies/1", company1.routes(), company1.allowedMethods());
+
+const company2 = companyRouter(client2());
+root.use("/companies/2", company2.routes(), company2.allowedMethods());
+
 module.exports = root;
