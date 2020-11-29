@@ -24,7 +24,7 @@ class App extends Component {
         <Layout>
           <Router>
             <Switch>
-              <Route exact path="/" component={Setup} />
+              <Route exact path="/" component={Home} />
               <Route path="/home" component={Home} />
               <Route path="/about" component={About} />
               <Route path="/login" component={Login} />

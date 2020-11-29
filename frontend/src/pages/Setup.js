@@ -88,7 +88,7 @@ export const Setup = () => {
             />
           </FormGroup>{" "}
           <Button
-            onClick={event => (window.location.href = "/home/")}
+            onClick={event => (window.location.href = "/Info/")}
             color="success"
           >
             Submit

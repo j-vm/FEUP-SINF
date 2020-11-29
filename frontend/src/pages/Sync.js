@@ -72,7 +72,7 @@ export const Sync = () => {
         </div>
 
         <div class="col-4">
-          <Table dark striped>
+          <Table dark >
             <thead class="thead-dark">
               <tr>
                 <th scope="col">ProductID-1</th>
@@ -81,15 +81,15 @@ export const Sync = () => {
             </thead>
             <tbody>
               <tr>
-                <th scope="row">B001</th>
+                <td>B001</td>
                 <td>B0T25</td>
               </tr>
               <tr>
-                <th scope="row">B002</th>
+                <td>B002</td>
                 <td>B0T33</td>
               </tr>
               <tr>
-                <th scope="row">ItemIDCompany1</th>
+                <td>ItemIDCompany1</td>
                 <td>ItemIDCompany2</td>
               </tr>
             </tbody>
