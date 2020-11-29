@@ -1,29 +1,55 @@
 import React from "react";
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { Table} from 'reactstrap';
 
 
 export const Info = () => {
   return (
 	<div className="mt-5" style={{ display: "flex" }}>
-      <ListGroup className="w-50">
-
-        <ListGroupItem color="info">Company 1</ListGroupItem>
-        <ListGroupItem>Name: KSede</ListGroupItem>
-        <ListGroupItem>Tenant</ListGroupItem>
-        <ListGroupItem>Client ID</ListGroupItem>
-        <ListGroupItem>Client Secret</ListGroupItem>
-      </ListGroup>
+    <Table dark>
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Company 1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name: KSede</td>
+              </tr>
+              <tr>
+                <td>Tenant:</td>
+              </tr>
+              <tr>
+                <td>Client ID:</td>
+              </tr>
+              <tr>
+                <td>Client Secret:</td>
+              </tr>
+            </tbody>
+          </Table>
 
 	  <span>&nbsp;&nbsp;</span>
 
-      <ListGroup className="w-50">
-
-        <ListGroupItem color="info">Company 2</ListGroupItem>
-        <ListGroupItem>Name: BottleFlip</ListGroupItem>
-        <ListGroupItem>Tenant</ListGroupItem>
-        <ListGroupItem>Client ID</ListGroupItem>
-        <ListGroupItem>Client Secret</ListGroupItem>
-      </ListGroup>
+    <Table dark>
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Company 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name: KSede</td>
+              </tr>
+              <tr>
+                <td>Tenant:</td>
+              </tr>
+              <tr>
+                <td>Client ID:</td>
+              </tr>
+              <tr>
+                <td>Client Secret:</td>
+              </tr>
+            </tbody>
+          </Table>
     </div>
   );
 };
