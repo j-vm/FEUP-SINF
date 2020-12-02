@@ -13,7 +13,7 @@ import { Log } from "./pages/Log";
 import { Sync } from "./pages/Sync";
 import { Info } from "./pages/Info";
 import { Layout } from "./components/Layout";
-import { NavBar } from "./components/NavBar"
+import { NavBar } from "./components/NavBar";
 import { NoMatch } from "./pages/NoMatch";
 
 class App extends Component {
