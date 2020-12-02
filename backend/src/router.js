@@ -18,4 +18,11 @@ root.use("/companies/1", company1.routes(), company1.allowedMethods());
 const company2 = companyRouter(client2());
 root.use("/companies/2", company2.routes(), company2.allowedMethods());
 
+const itemAssocs = require("./routes/item-association");
+root.use(
+  "/item-associations",
+  itemAssocs.routes(),
+  itemAssocs.allowedMethods()
+);
+
 module.exports = root;
