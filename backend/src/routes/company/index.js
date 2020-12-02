@@ -6,5 +6,9 @@ module.exports = function (client) {
     ctx.body = await client.getCompanies();
     ctx.status = 200;
   });
+  router.get("/items", async (ctx) => {
+    ctx.body = await client.getItems();
+    ctx.status = 200;
+  });
   return router;
 };
