@@ -1,9 +1,75 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Redirect } from "react-router-dom";
+import { useAuth } from "../auth";
+import { Layout } from "../components/Layout";
+
+const AuthButton = (props) => {
+  const { onSubmit } = props;
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const handleChange = (e, setState) => {
+    const { value } = e.target;
+    setState(value);
+  };
+  return (
+    <div className="container">
+      <Form
+        className="w-100"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit(userName, password);
+        }}
+      >
+        Sign in
+        <FormGroup class="mt-2">
+          <Label for="username" hidden>
+            Email
+          </Label>
+          <Input
+            type="username"
+            name="userName"
+            id="username"
+            placeholder="Username"
+            value={userName}
+            onChange={(e) => handleChange(e, setUserName)}
+          />
+        </FormGroup>{" "}
+        <FormGroup>
+          <Label for="examplePassword" hidden>
+            Password
+          </Label>
+          <Input
+            type="password"
+            name="password"
+            id="examplePassword"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => handleChange(e, setPassword)}
+          />
+        </FormGroup>{" "}
+        <div className="text-center">
+          <Button type="submit" color="success">
+            Log In
+          </Button>{" "}
+        </div>
+      </Form>
+    </div>
+  );
+};
 
 export const Login = () => {
-	return (
-		<div>
-			Login
-		</div>
-	)
-}
+  const auth = useAuth();
+
+  const onSubmit = (userName, password) => {
+    auth.signin(userName, password);
+  };
+
+  return auth && auth.token !== "" ? (
+    <Redirect to="/app"></Redirect>
+  ) : (
+    <Layout>
+      <AuthButton onSubmit={onSubmit}></AuthButton>
+    </Layout>
+  );
+};

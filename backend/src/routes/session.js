@@ -38,6 +38,7 @@ module.exports = async function (ctx) {
             }
           ),
         };
+        break;
       default:
         throw new Error();
     }
