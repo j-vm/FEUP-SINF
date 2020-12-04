@@ -22,4 +22,16 @@ router.post("/", async (ctx) => {
   ctx.status = 200;
 });
 
+router.delete("/:company1Id/:company2Id", async (ctx) => {
+  const { company1Id, company2Id } = ctx.params;
+  const model = await sequelize.models.ItemAssociation.findOne({
+    where: {
+      company1Id,
+      company2Id,
+    },
+  });
+  await model.destroy();
+  ctx.status = 200;
+});
+
 module.exports = router;
