@@ -1,101 +1,76 @@
-import React from "react";
-import { Table, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import React, { useState } from "react";
+import { Table, Breadcrumb, BreadcrumbItem, Container } from "reactstrap";
+import { useAuth } from "../../auth";
+
+async function getItems(company, token) {
+  const response = await fetch(`/api/companies/${company}/items`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await response.json();
+}
+
+async function getAssociations(token) {
+  const response = await fetch("/api/item-associations", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await response.json();
+}
+
+async function getData(token) {
+  const data = Promise.all([
+    getItems(1, token),
+    getItems(2, token),
+    getAssociations(token),
+  ]);
+  return await data;
+}
+
+function AssociationTable({ data }) {
+  const [items1, items2, associations] = data;
+  return (
+    <Table dark striped>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ProductID-1</th>
+          <th scope="col">Name</th>
+          <th scope="col">ProductID-2</th>
+          <th scope="col">Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {associations.map((association) => {
+          const { company1Id, company2Id } = association;
+          const item1 = items1.find((item) => item.key === company1Id);
+          const item2 = items2.find((item) => item.key === company2Id);
+          return (
+            <tr>
+              <td>{item1.key}</td>
+              <td>{item1.description}</td>
+              <td>{item2.key}</td>
+              <td>{item2.description}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </Table>
+  );
+}
 
 export const Sync = () => {
-  return (
-    <div className="mt-5">
-      <div class="row mt-5">
-        <div class="col-6">
-          Company 1
-          <Breadcrumb>
-            <BreadcrumbItem active>KSede</BreadcrumbItem>
-          </Breadcrumb>
-        </div>
-        <div class="col-6">
-          Company 2
-          <Breadcrumb>
-            <BreadcrumbItem active>BottleFlip</BreadcrumbItem>
-          </Breadcrumb>
-        </div>
-      </div>
-      
+  const [data, setData] = useState(null);
+  const { token } = useAuth();
 
-      <div class="row mt-5">
-        <div class="col-4">
-          <Table dark striped>
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">ProductID-1</th>
-                <th scope="col">Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">B001</th>
-                <td>Glass 25cl</td>
-              </tr>
-              <tr>
-                <th scope="row">B002</th>
-                <td>Glass 50cl</td>
-              </tr>
-              <tr>
-                <th scope="row">B003</th>
-                <td>Glass 1L</td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
+  getData(token).then(setData);
 
-        <div class="col-4">
-          <Table dark striped>
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">ProductID-2</th>
-                <th scope="col">Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">B0T25</th>
-                <td>Bottle 25cl</td>
-              </tr>
-              <tr>
-                <th scope="row">B0T33</th>
-                <td>Bottle 33cl</td>
-              </tr>
-              <tr>
-                <th scope="row">B0T50</th>
-                <td>Bottle 50cl</td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
-
-        <div class="col-4">
-          <Table dark >
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">ProductID-1</th>
-                <th scope="col">ProductID-2</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>B001</td>
-                <td>B0T25</td>
-              </tr>
-              <tr>
-                <td>B002</td>
-                <td>B0T33</td>
-              </tr>
-              <tr>
-                <td>ItemIDCompany1</td>
-                <td>ItemIDCompany2</td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
-      </div>
-    </div>
+  return data !== null ? (
+    <Container>
+      <AssociationTable data={data} />
+    </Container>
+  ) : (
+    <p> Loading </p>
   );
 };

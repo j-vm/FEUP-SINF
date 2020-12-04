@@ -1,7 +1,5 @@
-import { Container } from 'reactstrap';
+import { Container } from "reactstrap";
 
 export const Layout = (props) => (
-    <Container >
-        {props.children}
-    </Container>
-)   
+  <Container className="my-5">{props.children}</Container>
+);
