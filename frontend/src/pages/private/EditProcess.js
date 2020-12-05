@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export const EditProcess = () => {
-	return (
-		<div>
-			EditProcess
-		</div>
-	)
-}
+  return <div>EditProcess</div>;
+};

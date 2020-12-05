@@ -1,10 +1,5 @@
-import React from 'react'
-
+import React from "react";
 
 export const Log = () => {
-	return (
-		<div>
-			Log
-		</div>
-	)
-}
+  return <div>Log</div>;
+};

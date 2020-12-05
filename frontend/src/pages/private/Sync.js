@@ -60,7 +60,7 @@ function AssociationTable({ data, onDelete }) {
   const [items1, items2, associations] = data;
   return (
     <Table dark striped>
-      <thead class="thead-dark">
+      <thead className="thead-dark">
         <tr>
           <th scope="col" className="text-center">
             ProductID-1

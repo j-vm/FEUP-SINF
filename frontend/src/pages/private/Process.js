@@ -8,14 +8,14 @@ export const Process = () => {
         <Button color="secondary">Edit</Button>{" "}
         <Button color="danger">Delete</Button>{" "}
       </div>
-      <div class="row mt-5">
-        <div class="col-6">
+      <div className="row mt-5">
+        <div className="col-6">
           Company 1
           <Breadcrumb>
             <BreadcrumbItem active>KSede</BreadcrumbItem>
           </Breadcrumb>
         </div>
-        <div class="col-6">
+        <div className="col-6">
           Company 2
           <Breadcrumb>
             <BreadcrumbItem active>BottleFlip</BreadcrumbItem>
@@ -49,7 +49,11 @@ export const Process = () => {
         </tbody>
       </Table>
       <div style={{ display: "flex" }}>
-        <Button onClick={event => (window.location.href = "/processes/")} style={{ marginLeft: "auto" }} color="success">
+        <Button
+          onClick={(event) => (window.location.href = "/processes/")}
+          style={{ marginLeft: "auto" }}
+          color="success"
+        >
           Confirm
         </Button>{" "}
       </div>

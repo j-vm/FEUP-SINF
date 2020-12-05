@@ -1,14 +1,22 @@
 import React from "react";
-import { Button, Form, ListGroupItem, FormGroup, Label, Input } from "reactstrap";
+import {
+  Button,
+  Form,
+  ListGroupItem,
+  FormGroup,
+  Label,
+  Input,
+} from "reactstrap";
 
 export const Setup = () => {
   return (
     <div className="mt-5">
-      <div class="row">
-        <div class="col-6">
-          
-          <Form class="mt-5">
-          <ListGroupItem color="info" style={{ textAlign: "center" }}>Company 1</ListGroupItem>
+      <div className="row">
+        <div className="col-6">
+          <Form className="mt-5">
+            <ListGroupItem color="info" style={{ textAlign: "center" }}>
+              Company 1
+            </ListGroupItem>
             <FormGroup className="mt-5">
               <Label for="name">Name</Label>
               <Input type="text" name="name" id="name" />
@@ -28,11 +36,12 @@ export const Setup = () => {
           </Form>
         </div>
 
-        <div class="col-6">
-          
-          <Form class="mt-5">
-          <ListGroupItem color="info" style={{ textAlign: "center" }}>Company 2</ListGroupItem>
-          <FormGroup className="mt-5">
+        <div className="col-6">
+          <Form className="mt-5">
+            <ListGroupItem color="info" style={{ textAlign: "center" }}>
+              Company 2
+            </ListGroupItem>
+            <FormGroup className="mt-5">
               <Label for="name">Name</Label>
               <Input type="text" name="name" id="name" />
             </FormGroup>
@@ -59,13 +68,12 @@ export const Setup = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "30vh"
+          height: "30vh",
         }}
       >
         <Form className="w-25">
-        Authenticate: 
-
-          <FormGroup class="mt-2">
+          Authenticate:
+          <FormGroup className="mt-2">
             <Label for="username" hidden>
               Email
             </Label>
@@ -88,7 +96,7 @@ export const Setup = () => {
             />
           </FormGroup>{" "}
           <Button
-            onClick={event => (window.location.href = "/Info/")}
+            onClick={(event) => (window.location.href = "/Info/")}
             color="success"
           >
             Submit
