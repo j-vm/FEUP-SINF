@@ -7,7 +7,7 @@ export const Processes = () => {
     <div className="mt-5">
       <div>
         <Button
-          onClick={event => (window.location.href = "/process/1")}
+          onClick={(event) => (window.location.href = "/process/1")}
           color="info"
         >
           Add New Process

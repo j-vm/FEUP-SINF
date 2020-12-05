@@ -1,12 +1,12 @@
 import React from "react";
 import { Table, Spinner } from "reactstrap";
 
-const numbers = ['P04', 'P05', 'P06', 'P07', 'P08'];
+const numbers = ["P04", "P05", "P06", "P07", "P08"];
 
 export const Logs = () => {
   return (
     <div className="mt-5">
-      <Table dark style={{ textAlign: 'center' }}>
+      <Table dark style={{ textAlign: "center" }}>
         <thead>
           <tr>
             <th>ID</th>
@@ -48,9 +48,9 @@ export const Logs = () => {
 };
 
 const PrintLogs = () => {
-  const listItems = numbers.map(number => (
-    <tr >
-      <td >{number}</td>
+  const listItems = numbers.map((number) => (
+    <tr>
+      <td>{number}</td>
     </tr>
   ));
   return <div>{listItems}</div>;

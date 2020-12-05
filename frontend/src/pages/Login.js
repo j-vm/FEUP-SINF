@@ -22,7 +22,7 @@ const AuthButton = (props) => {
         }}
       >
         Sign in
-        <FormGroup class="mt-2">
+        <FormGroup className="mt-2">
           <Label for="username" hidden>
             Email
           </Label>
