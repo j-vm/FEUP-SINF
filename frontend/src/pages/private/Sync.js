@@ -111,15 +111,18 @@ export const Sync = () => {
   const [data, setData] = useState(null);
   const { token } = useAuth();
 
-  getData(token).then(setData);
+  if (data === null) getData(token).then(setData);
 
   const onDelete = (company1Id, company2Id) =>
     deleteAssociation(token, company1Id, company2Id).then(() => {
-      const key = data[2].findIndex(
-        (val) => val.company1Id === company1Id && val.company2Id === company2Id
-      );
-      const newData = [...data];
-      newData[2].splice(key, 1);
+      setData((data) => [
+        data[0],
+        data[1],
+        data[2].filter(
+          (val) =>
+            val.company1Id !== company1Id || val.company2Id !== company2Id
+        ),
+      ]);
     });
 
   return data !== null ? (
