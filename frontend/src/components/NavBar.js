@@ -22,37 +22,37 @@ export const NavBar = (props) => {
   return (
     <div>
       <Navbar color="dark" light expand="md">
-        <NavbarBrand className="text-info" href="/">
+        <Link className="text-info navbar-brand" to="/">
           <img
             alt=""
             src={ReactLogo}
             width="30"
             height="30"
             className="d-inline-block align-top"
-          />{" "}
-          InterCompany{" "}
-        </NavbarBrand>
+          />
+          <span className="mx-2">InterCompany</span>
+        </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <Link to="/app/info/">
-                <NavLink className="text-muted">Settings</NavLink>
+              <Link to="/app/info/" className="text-muted nav-link">
+                Settings
               </Link>
             </NavItem>
             <NavItem>
-              <Link to="/app/processes/">
-                <NavLink className="text-muted">Processes</NavLink>
+              <Link to="/app/processes/" className="text-muted nav-link">
+                Processes
               </Link>
             </NavItem>
             <NavItem>
-              <Link to="/app/sync/">
-                <NavLink className="text-muted">Data</NavLink>
+              <Link to="/app/sync/" className="text-muted nav-link">
+                Data
               </Link>
             </NavItem>
             <NavItem>
-              <Link to="/app/logs/">
-                <NavLink className="text-muted">Logs</NavLink>
+              <Link to="/app/logs/" className="text-muted nav-link">
+                Logs
               </Link>
             </NavItem>
           </Nav>
