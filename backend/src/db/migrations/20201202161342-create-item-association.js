@@ -2,28 +2,28 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("item_associations", {
+    await queryInterface.createTable("ItemAssociations", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      company1_id: {
+      company1Id: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
-      company2_id: {
+      company2Id: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
@@ -31,6 +31,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("item_associations");
+    await queryInterface.dropTable("ItemAssociations");
   },
 };
