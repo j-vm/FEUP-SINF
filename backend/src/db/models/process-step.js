@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "ProcessStep",
-      underscored: true,
     }
   );
   return ProcessStep;

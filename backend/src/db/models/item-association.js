@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "ItemAssociation",
-      underscored: true,
     }
   );
   return ItemAssociation;

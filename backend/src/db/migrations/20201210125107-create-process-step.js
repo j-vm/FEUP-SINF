@@ -11,26 +11,28 @@ module.exports = {
       order: {
         type: Sequelize.INTEGER,
       },
-      process_id: {
+      processId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
           model: "Processes",
           key: "id",
-          as: "user_id",
+          as: "processId",
         },
       },
       type: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      document_type: {
+      documentType: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
