@@ -10,6 +10,11 @@ module.exports = {
       },
       order: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      company: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       processId: {
         type: Sequelize.INTEGER,
