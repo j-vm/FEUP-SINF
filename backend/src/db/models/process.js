@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Process.hasMany(models.ProcessStep, { foreignKey: "processId" });
+      Process.hasMany(models.Execution, { foreignKey: "processId" })
     }
   }
   Process.init(

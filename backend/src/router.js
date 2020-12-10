@@ -25,4 +25,7 @@ root.use(
   itemAssocs.allowedMethods()
 );
 
+const processes = require("./routes/processes");
+root.use("/processes", processes.routes(), processes.allowedMethods());
+
 module.exports = root;
