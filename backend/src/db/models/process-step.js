@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       processId: DataTypes.INTEGER,
       type: DataTypes.STRING,
       documentType: DataTypes.STRING,
+      company: DataTypes.INTEGER,
     },
     {
       sequelize,
