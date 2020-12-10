@@ -235,6 +235,6 @@ export const Sync = () => {
       </Row>
     </Container>
   ) : (
-    <p> Loading </p>
+    <p> Loading ...</p>
   );
 };
