@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class ProcessStep extends Model {
+  class Execution extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,24 +9,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      ProcessStep.belongsTo(models.Process, {
+      Execution.belongsTo(models.Process, {
         foreignKey: "processId",
         onDelete: "CASCADE",
       });
     }
   }
-  ProcessStep.init(
+  Execution.init(
     {
-      order: { type: DataTypes.INTEGER, unique: "processOrder" },
-      processId: { type: DataTypes.INTEGER, unique: "processOrder" },
-      type: DataTypes.STRING,
-      documentType: DataTypes.STRING,
-      company: DataTypes.INTEGER,
+      processId: DataTypes.INTEGER,
+      stepAt: DataTypes.INTEGER,
+      finished: DataTypes.BOOLEAN,
+      done: DataTypes.BOOLEAN,
     },
     {
       sequelize,
-      modelName: "ProcessStep",
+      modelName: "Execution",
     }
   );
-  return ProcessStep;
+  return Execution;
 };

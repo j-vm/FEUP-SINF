@@ -1,14 +1,12 @@
-"use strict";
+'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("ProcessSteps", {
+    await queryInterface.createTable("Executions", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      order: {
         type: Sequelize.INTEGER,
       },
       processId: {
@@ -20,14 +18,17 @@ module.exports = {
           as: "processId",
         },
       },
-      type: {
-        type: Sequelize.STRING,
-      },
-      documentType: {
-        type: Sequelize.STRING,
-      },
-      company: {
+      stepAt: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      finished: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      done: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -37,9 +38,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    });
+    })
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("ProcessSteps");
-  },
+    await queryInterface.dropTable("Execution");
+  }
 };
