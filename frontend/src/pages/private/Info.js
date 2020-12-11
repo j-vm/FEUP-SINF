@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Container, Button, Form, Label, Input, Row, Col } from "reactstrap";
+import { Table, Row, Col } from "reactstrap";
 import { useAuth } from "../../auth";
 
 async function getInfo(company, token) {

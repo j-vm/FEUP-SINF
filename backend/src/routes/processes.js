@@ -1,7 +1,10 @@
 const koaRouter = require("koa-router");
+const router = new koaRouter();
+
 const { sequelize } = require("../db");
 const models = require("../jasmin/models");
-const router = new koaRouter();
+
+const processExecuter = require("../execution/executer");
 
 router.get("/", async (ctx) => {
   const results = await sequelize.models.Process.findAll({
@@ -94,6 +97,20 @@ router.post("/executions", async (ctx) => {
     finished: model.finished,
     done: model.done,
   };
+  ctx.status = 200;
+});
+
+router.post("/test", async (ctx) => {
+
+  const executions = await sequelize.models.Execution.findAll({
+    include: sequelize.models.Process,
+  });
+
+  const processes = await Promise.all(executions.map(async (result) => {
+    return (await sequelize.models.Process.findOne({where: {id: result.processId}})).name
+  }));
+
+  processExecuter.runExecutions(executions, processes);
   ctx.status = 200;
 });
 
