@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Container, Button, Form, Label, Input, Row, Col } from "reactstrap";
+import { Table, Row, Col } from "reactstrap";
 import { useAuth } from "../../auth";
 
 async function getInfo(company, token) {
@@ -12,10 +12,7 @@ async function getInfo(company, token) {
 }
 
 async function getData(token) {
-  const data = Promise.all([
-    getInfo(1, token),
-    getInfo(2, token),
-  ]);
+  const data = Promise.all([getInfo(1, token), getInfo(2, token)]);
   return await data;
 }
 
@@ -27,7 +24,9 @@ function InformationTables({ data }) {
         <Table dark striped responsive>
           <thead className="thead-dark">
             <tr>
-              <th scope="col" colSpan="2" className="text-center">Company 1</th>
+              <th scope="col" colSpan="2" className="text-center">
+                Company 1
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -37,7 +36,9 @@ function InformationTables({ data }) {
             </tr>
             <tr>
               <th scope="row">Currency</th>
-              <td className="text-right align-middle">{info1[1].baseCurrency}</td>
+              <td className="text-right align-middle">
+                {info1[1].baseCurrency}
+              </td>
             </tr>
             <tr>
               <th scope="row">City</th>
@@ -53,11 +54,15 @@ function InformationTables({ data }) {
             </tr>
             <tr>
               <th scope="row">Country</th>
-              <td className="text-right align-middle">{info1[1].countryDescription}</td>
+              <td className="text-right align-middle">
+                {info1[1].countryDescription}
+              </td>
             </tr>
             <tr>
               <th scope="row">Created On</th>
-              <td className="text-right align-middle">{info1[1].createdOn.substring(0,10)}</td>
+              <td className="text-right align-middle">
+                {info1[1].createdOn.substring(0, 10)}
+              </td>
             </tr>
           </tbody>
         </Table>
@@ -67,7 +72,9 @@ function InformationTables({ data }) {
         <Table dark striped responsive>
           <thead className="thead-dark">
             <tr>
-              <th scope="col" colSpan="2" className="text-center">Company 2</th>
+              <th scope="col" colSpan="2" className="text-center">
+                Company 2
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -77,7 +84,9 @@ function InformationTables({ data }) {
             </tr>
             <tr>
               <th scope="row">Currency</th>
-              <td className="text-right align-middle">{info2[1].baseCurrency}</td>
+              <td className="text-right align-middle">
+                {info2[1].baseCurrency}
+              </td>
             </tr>
             <tr>
               <th scope="row">City</th>
@@ -93,11 +102,15 @@ function InformationTables({ data }) {
             </tr>
             <tr>
               <th scope="row">Country</th>
-              <td className="text-right align-middle">{info2[1].countryDescription}</td>
+              <td className="text-right align-middle">
+                {info2[1].countryDescription}
+              </td>
             </tr>
             <tr>
               <th scope="row">Created On</th>
-              <td className="text-right align-middle">{info2[1].createdOn.substring(0,10)}</td>
+              <td className="text-right align-middle">
+                {info2[1].createdOn.substring(0, 10)}
+              </td>
             </tr>
           </tbody>
         </Table>
