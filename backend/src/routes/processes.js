@@ -67,9 +67,15 @@ router.get("/executions", async (ctx) => {
     include: sequelize.models.Process,
   });
 
-  const processNames = await Promise.all(results.map(async (result) => {
-    return (await sequelize.models.Process.findOne({where: {id: result.processId}})).name
-  }));
+  const processNames = await Promise.all(
+    results.map(async (result) => {
+      return (
+        await sequelize.models.Process.findOne({
+          where: { id: result.processId },
+        })
+      ).name;
+    })
+  );
 
   ctx.body = results.map((result, i) => {
     return {
@@ -101,14 +107,19 @@ router.post("/executions", async (ctx) => {
 });
 
 router.post("/test", async (ctx) => {
-
   const executions = await sequelize.models.Execution.findAll({
     include: sequelize.models.Process,
   });
 
-  const processes = await Promise.all(executions.map(async (result) => {
-    return (await sequelize.models.Process.findOne({where: {id: result.processId}})).name
-  }));
+  const processes = await Promise.all(
+    executions.map(async (result) => {
+      return (
+        await sequelize.models.Process.findOne({
+          where: { id: result.processId },
+        })
+      ).name;
+    })
+  );
 
   processExecuter.runExecutions(executions, processes);
   ctx.status = 200;

@@ -220,7 +220,7 @@ export const Sync = () => {
     const usedKeys = data[2].map((a) => a.company2Id);
     return data[1].filter((item) => !usedKeys.includes(item.key));
   };
-  console.log(data)
+  console.log(data);
   return data !== null ? (
     <Container>
       <Row>
