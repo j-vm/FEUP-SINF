@@ -87,7 +87,7 @@ function InformationTables({ data }) {
           </thead>
           <tbody>
           {(() => {
-            if (info1.length > 0) {
+            if (info2.length > 0) {
               return (
                 <>
                   <tr>
