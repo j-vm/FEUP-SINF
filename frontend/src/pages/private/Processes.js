@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Table, Button, Row, Col, FormGroup, InputGroup, InputGroupAddon, Label,Input } from "reactstrap";
+import { Table, Container, Button, Row, Col, Form, InputGroup, InputGroupAddon, Label,Input } from "reactstrap";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../auth";
 
 async function getProcesses(token) {
@@ -11,33 +12,56 @@ async function getProcesses(token) {
   return await response.json();
 }
 
-async function addProcess(token, process_name) {
-  const response = await fetch(`/api/processes/`, {
+async function addProcess(token, name) {
+  const response = await fetch(`/api/processes`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
+      "Authorization": `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({process_name}),
+    body: JSON.stringify({name}),
   });
   return await response.json();
 }
 
 async function getData(token) {
-  const data = Promise.all([getProcesses(token)]);
+  const data = getProcesses(token);
   return await data;
+}
+
+function AddProcessForm({ onAdd }) {
+  const [clicked, setClicked] = useState(false);
+  const [process_name, setProcessName] = useState("");
+  return (
+    <Form>
+      <h2>Add New Process</h2>
+      <InputGroup>
+        <Input type="text" name="process_name" value={process_name} 
+          onChange={(e) => {
+          const { value } = e.target;
+          setProcessName(value);
+        }} placeholder="Insert a new process" />
+        <InputGroupAddon addonType="append">
+          <Button 
+            disabled={clicked || process_name === ""}
+            onClick={() => {
+              setClicked(true);
+              onAdd(process_name, () => {
+                setClicked(false);
+                setProcessName("");
+              });
+            }}
+          color="info">
+            Add New Process
+          </Button>{" "}
+        </InputGroupAddon>
+      </InputGroup>
+    </Form>
+  );
 }
 
 function ProcessTable({ processes }) {
   return (
-    <Row>
-      <Col sm="12">
-        <InputGroup>
-          <Input type="text" name="process_name" id="process_name" placeholder="Insert a new process" />
-          <InputGroupAddon addonType="append"><Button onClick={addProcess} color="info" >Add New Process</Button>{" "}</InputGroupAddon>
-        </InputGroup>
-      </Col>
-      <Col sm="12" className="mt-5">
         <Table dark style={{ textAlign: "center" }}>
           <thead>
             <tr>
@@ -68,7 +92,9 @@ function ProcessTable({ processes }) {
                       <Button color="danger">Delete</Button>
                     </td>
                     <td className="text-center align-middle">
-                      <Button color="primary">Edit</Button>
+                      <Link to='/app/steps'>
+                        <Button color="primary">View</Button>
+                      </Link>
                     </td>
                   </tr>
                 );
@@ -76,8 +102,6 @@ function ProcessTable({ processes }) {
             )}
           </tbody>
         </Table>
-      </Col>
-    </Row>
   );
 }
 
@@ -86,9 +110,25 @@ export const Processes = () => {
   const { token } = useAuth();
 
   if (data === null) getData(token).then(setData);
-  console.log(data);
+
+  const onAdd = async (process_name, setDone) => {
+    const result = await addProcess(token, process_name);
+    const newProcess = [...data, result];
+    setData(newProcess);
+    setDone();
+  };
+
   return data !== null ? (
-    <ProcessTable processes={data[0]} />
+    <>
+      <Row>
+        <Col sm="12">
+          <AddProcessForm onAdd={onAdd}></AddProcessForm>
+        </Col>
+        <Col sm="12" className="mt-5">
+          <ProcessTable processes={data} />
+        </Col>
+      </Row>
+    </>
   ) : (
     <p> Loading ...</p>
   );
