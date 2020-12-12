@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       processId: DataTypes.INTEGER,
       stepAt: DataTypes.INTEGER,
+      info: DataTypes.TEXT,
       finished: DataTypes.BOOLEAN,
       done: DataTypes.BOOLEAN,
     },
