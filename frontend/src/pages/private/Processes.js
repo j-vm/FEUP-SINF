@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Table } from "reactstrap";
-import { Button } from "reactstrap";
+import { Table, Button, Row, Col, FormGroup, InputGroup, InputGroupAddon, Label,Input } from "reactstrap";
 import { useAuth } from "../../auth";
 
 async function getProcesses(token) {
@@ -12,6 +11,18 @@ async function getProcesses(token) {
   return await response.json();
 }
 
+async function addProcess(token, process_name) {
+  const response = await fetch(`/api/processes/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({process_name}),
+  });
+  return await response.json();
+}
+
 async function getData(token) {
   const data = Promise.all([getProcesses(token)]);
   return await data;
@@ -19,16 +30,14 @@ async function getData(token) {
 
 function ProcessTable({ processes }) {
   return (
-    <div className="mt-5">
-      <div>
-        <Button
-          onClick={(event) => (window.location.href = "/process/1")}
-          color="info"
-        >
-          Add New Process
-        </Button>{" "}
-      </div>
-      <div className="mt-2">
+    <Row>
+      <Col sm="12">
+        <InputGroup>
+          <Input type="text" name="process_name" id="process_name" placeholder="Insert a new process" />
+          <InputGroupAddon addonType="append"><Button onClick={addProcess} color="info" >Add New Process</Button>{" "}</InputGroupAddon>
+        </InputGroup>
+      </Col>
+      <Col sm="12" className="mt-5">
         <Table dark style={{ textAlign: "center" }}>
           <thead>
             <tr>
@@ -67,8 +76,8 @@ function ProcessTable({ processes }) {
             )}
           </tbody>
         </Table>
-      </div>
-    </div>
+      </Col>
+    </Row>
   );
 }
 
