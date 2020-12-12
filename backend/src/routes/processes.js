@@ -83,6 +83,7 @@ router.get("/executions", async (ctx) => {
     return {
       id: processNames[i],
       name: result.name,
+      info: "{}",
       stepAt: result.stepAt,
       finished: result.finished,
       done: result.done,

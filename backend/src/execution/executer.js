@@ -1,5 +1,5 @@
 const models = require("../jasmin/models");
-const fs = require("fs");
+const { sequelize } = require("../db");
 
 module.exports = {
   runExecutions: async function (executions, stepsToRun) {
@@ -9,6 +9,11 @@ module.exports = {
         return await runStep(execution, stepsToRun[index]);
       })
     );
+    for (let index = 0; index < iterateStep.length; index++) {
+      if(iterateStep[index]){
+        //In database increment stepAt or toggle done
+      }
+    }
   },
 };
 
@@ -18,7 +23,7 @@ function runStep(exec, step) {
   let returnCode = 0;
   switch (step.documentType) {
     case "supplierInvoice":
-      returnCode = handleSupplierInvoice(step.type, exec.id);
+      returnCode = handleSupplierInvoice(step.type, exec.info);
       break;
     case "docB":
       //TODO: returnCode = docB(step.type, exec.id)
