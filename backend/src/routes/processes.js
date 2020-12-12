@@ -37,7 +37,9 @@ router.get("/:id/steps", async (ctx) => {
 
   ctx.body = results.map((result) => {
     return {
+      order: result.order,
       id: result.processId,
+      type: result.type,
       docType: result.documentType,
     };
   });
@@ -108,20 +110,23 @@ router.post("/executions", async (ctx) => {
 
 router.post("/test", async (ctx) => {
   const executions = await sequelize.models.Execution.findAll({
+    where: { done: false },
     include: sequelize.models.Process,
+    raw: true,
   });
-
-  const processes = await Promise.all(
-    executions.map(async (result) => {
-      return (
-        await sequelize.models.Process.findOne({
-          where: { id: result.processId },
-        })
-      ).name;
+  console.log("EXECUTION:" + executions);
+  const stepsToRun = await Promise.all(
+    executions.map(async (execution) => {
+      return await sequelize.models.ProcessStep.findOne({
+        where: { processId: execution.processId, order: execution.stepAt },
+        raw: true,
+      });
     })
   );
 
-  processExecuter.runExecutions(executions, processes);
+  processExecuter.runExecutions(executions, stepsToRun);
+
+  ctx.body = stepsToRun;
   ctx.status = 200;
 });
 
