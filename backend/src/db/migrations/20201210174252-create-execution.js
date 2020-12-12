@@ -22,6 +22,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      info: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       finished: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -42,6 +46,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Execution");
+    await queryInterface.dropTable("Executions");
   },
 };
