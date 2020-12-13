@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Table, Container, Button, Row, Col, Form, InputGroup, InputGroupAddon, Label,Input } from "reactstrap";
+import { Table, Button, Row, Col} from "reactstrap";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "../../auth";
-import queryString from 'query-string'
 
 async function getSteps(id, token) {
     const response = await fetch(`/api/processes/${id}/steps`, {
@@ -12,9 +12,9 @@ async function getSteps(id, token) {
     return await response.json();
 }
 
-async function getData(token) {
+async function getData(token, params) {
   //const process_id = queryString.parse(this.props.location.search.id)
-    const data = getSteps(0, token);
+    const data = getSteps(params.id, token);
     return await data;
 }
 
@@ -38,7 +38,7 @@ function StepsTable({ steps }) {
             steps.map((step) => {
                 const { id, docType } = step;
                 return (
-                    <tr>
+                    <tr key={id}>
                         <td className="text-center align-middle">{id}</td>
                         <td className="text-center align-middle">{docType}</td>
                     </tr>
@@ -50,17 +50,21 @@ function StepsTable({ steps }) {
     );
 }
 
-export const Steps = () => {
+export const Steps = (props) => {
+    const params = props.match.params;
     const [data, setData] = useState(null);
     const { token } = useAuth();
 
-    if (data === null) getData(token).then(setData);
+    let history = useHistory();
+
+    if (data === null) getData(token, params).then(setData);
 
     return data !== null ? (
     <>
         <Row>
             <Col sm="12">
                 <StepsTable steps={data} />
+                <Button color="primary" onClick={() => history.goBack()}>Go back</Button>
             </Col>
         </Row>
     </>
