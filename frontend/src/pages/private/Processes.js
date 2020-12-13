@@ -83,7 +83,7 @@ function ProcessTable({ processes }) {
               processes.map((process) => {
                 const { id, name, numberSteps } = process;
                 return (
-                  <tr>
+                  <tr key={id}>
                     <td className="text-center align-middle">{id}</td>
                     <td className="text-center align-middle">{name}</td>
                     <td className="text-center align-middle">{numberSteps}</td>
@@ -92,7 +92,7 @@ function ProcessTable({ processes }) {
                       <Button color="danger">Delete</Button>
                     </td>
                     <td className="text-center align-middle">
-                      <Link to='/app/steps'>
+                      <Link to={'/app/steps/' + id }>
                         <Button color="primary">View</Button>
                       </Link>
                     </td>

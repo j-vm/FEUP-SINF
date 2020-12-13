@@ -61,6 +61,5 @@ export const Logs = () => {
   const { token } = useAuth();
 
   if (data === null) getData(token).then(setData);
-  console.log(data);
   return data !== null ? <LogsTable logs={data[0]} /> : <p> Loading ...</p>;
 };

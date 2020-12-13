@@ -25,10 +25,9 @@ export default function PrivateRoutes() {
         <Switch>
           <Route exact path="/app/" component={Info} />
           <Route path="/app/setup" component={Setup} />
+          <Route path="/app/process/1" component={Process} />
           <Route path="/app/processes" component={Processes} />
-          {/* <Route path="/app/process/1" component={Process} /> */}
-          {/* Aqui acho que é preciso fazer um switch para os processes */}
-          <Route exact path="/app/steps" component={Steps}/> 
+          <Route path={"/app/steps/:id"} component={Steps} /> 
           <Route path="/app/logs" component={Logs} />
           <Route path="/app/log/1" component={Log} />
           <Route path="/app/sync" component={Sync} />
