@@ -11,7 +11,7 @@ module.exports = {
       })
     );
     for (let index = 0; index < iterateStep.length; index++) {
-      if(iterateStep[index]){
+      if (iterateStep[index]) {
         //In database increment stepAt or toggle done
       }
     }
@@ -41,8 +41,8 @@ async function runStep(exec, step) {
 }
 
 async function handleBuyOrder(type, company) {
-  const client = company == 1 ? (client1()):(client2())
-  console.log(client)
+  const client = company == 1 ? client1() : client2();
+  console.log(client);
   if (type == "emit") {
     //GET JSON DATA FROM FILE WITH FS
     //Access Correct endpoint with the json data
@@ -50,7 +50,7 @@ async function handleBuyOrder(type, company) {
   } else if (type == "wait") {
     let info;
     let returnCode;
-    returnCode, info = await client.getBuyOrder();
+    returnCode, (info = await client.getBuyOrder());
     console.log("Looking for Supplier Invoice");
     console.log(info);
     console.log(returnCode);

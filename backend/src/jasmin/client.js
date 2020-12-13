@@ -66,8 +66,4 @@ async function auth(auth, client) {
   return await oauth.getToken({ scope: "application" });
 }
 
-
-
-
-
 module.exports = JasminClient;
