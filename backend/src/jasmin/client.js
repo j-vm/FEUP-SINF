@@ -9,6 +9,7 @@ class JasminClient {
     this.authCreds = authCreds;
     this.fetch = null;
     this.token = null;
+    this.documentsSeen = [];
   }
 
   async getCompanies() {
@@ -22,6 +23,20 @@ class JasminClient {
     const response = await fetch("/businessCore/items");
     const parsed = await response.json();
     return parsed.map((item) => new Item(item));
+  }
+
+  async getBuyOrder() {
+    const fetch = await this.getFetch();
+    const response = await fetch("/purchases/orders");
+    const buyOrders = await response.json();
+    for (const i in buyOrders) {
+      const buyOrder = buyOrders[i];
+      if (!this.documentsSeen.includes("ECF-" + buyOrder["seriesNumber"])) {
+        this.documentsSeen.push("ECF-" + buyOrder["seriesNumber"]);
+        return 1, buyOrder;
+      }
+    }
+    return 0;
   }
 
   async getFetch() {
@@ -50,5 +65,9 @@ async function auth(auth, client) {
   const oauth = new ClientCredentials(config);
   return await oauth.getToken({ scope: "application" });
 }
+
+
+
+
 
 module.exports = JasminClient;

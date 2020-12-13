@@ -83,7 +83,7 @@ router.get("/executions", async (ctx) => {
     return {
       id: processNames[i],
       name: result.name,
-      info: "{}",
+      info: result.info,
       stepAt: result.stepAt,
       finished: result.finished,
       done: result.done,
@@ -97,6 +97,7 @@ router.post("/executions", async (ctx) => {
   const model = await sequelize.models.Execution.create({
     processId,
     stepAt: 0,
+    info: "{}",
     finished: false,
     done: false,
   });

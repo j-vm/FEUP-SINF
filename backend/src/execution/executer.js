@@ -1,5 +1,6 @@
 const models = require("../jasmin/models");
 const { sequelize } = require("../db");
+const { client1, client2 } = require("../jasmin/index");
 
 module.exports = {
   runExecutions: async function (executions, stepsToRun) {
@@ -18,12 +19,12 @@ module.exports = {
 };
 
 // return 1 if successful
-function runStep(exec, step) {
+async function runStep(exec, step) {
   console.log(step), console.log(exec);
   let returnCode = 0;
   switch (step.documentType) {
-    case "supplierInvoice":
-      returnCode = handleSupplierInvoice(step.type, exec.info);
+    case "clientInvoice":
+      returnCode = await handleBuyOrder(step.type, step.company);
       break;
     case "docB":
       //TODO: returnCode = docB(step.type, exec.id)
@@ -39,15 +40,22 @@ function runStep(exec, step) {
   return returnCode;
 }
 
-function handleSupplierInvoice(type, id) {
+async function handleBuyOrder(type, company) {
+  const client = company == 1 ? (client1()):(client2())
+  console.log(client)
   if (type == "emit") {
     //GET JSON DATA FROM FILE WITH FS
     //Access Correct endpoint with the json data
     console.log("Emiting Supplier Invoice");
   } else if (type == "wait") {
-    //Access Correct endpoint to get the json data
-    //STORE JSON DATA ON FILE WITH FS
+    let info;
+    let returnCode;
+    returnCode, info = await client.getBuyOrder();
     console.log("Looking for Supplier Invoice");
+    console.log(info);
+    console.log(returnCode);
+    //STORE JSON DATA ON FILE WITH FS
+    return returnCode;
   }
   console.log("ERROR: Unrecognized step type " + type);
 }
