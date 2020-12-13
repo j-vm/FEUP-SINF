@@ -114,14 +114,12 @@ router.post("/test", async (ctx) => {
   const executions = await sequelize.models.Execution.findAll({
     where: { done: false },
     include: sequelize.models.Process,
-    raw: true,
   });
   console.log("EXECUTION:" + executions);
   const stepsToRun = await Promise.all(
     executions.map(async (execution) => {
       return await sequelize.models.ProcessStep.findOne({
         where: { processId: execution.processId, order: execution.stepAt },
-        raw: true,
       });
     })
   );

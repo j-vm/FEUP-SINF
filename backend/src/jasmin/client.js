@@ -51,6 +51,26 @@ class JasminClient {
     return [0, null];
   }
 
+  async generateSellOrder(info) {
+    const fetch = await this.getFetch();
+    const products = {},
+    const bodyContent = {
+      companyID: info.sellerSupplierPartyId,
+      buyerCustomerParty: info.accountingParty,
+      deliveryTerm: info.deliveryTerm,
+      documentLines: [
+        products
+      ]
+    };
+    const body = JSON.stringify;
+    const response = await fetch("/sales/orders/", {
+      method: "POST",
+      body,
+      headers: { "Content-Type": "application/json" },
+    });
+    return await response.ok();
+  }
+
   async getFetch() {
     // this.token is null if and only if this.fetch is also null
     // the 5 means that we should replace the token 5 seconds before expiration, at
