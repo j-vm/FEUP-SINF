@@ -2,13 +2,16 @@ const config = require("../config/api");
 const { ClientCredentials } = require("simple-oauth2");
 const nodeFetch = require("node-fetch");
 const { Item } = require("./models");
+const { sequelize } = require("../db");
 
 class JasminClient {
-  constructor(baseUri, authCreds) {
+  constructor(baseUri, authCreds, companyId) {
     this.baseUri = baseUri;
     this.authCreds = authCreds;
     this.fetch = null;
     this.token = null;
+    this.companyId = companyId;
+    this.documentsSeen = [];
   }
 
   async getCompanies() {
@@ -22,6 +25,30 @@ class JasminClient {
     const response = await fetch("/businessCore/items");
     const parsed = await response.json();
     return parsed.map((item) => new Item(item));
+  }
+
+  async getNewBuyOrder() {
+    const fetch = await this.getFetch();
+    const response = await fetch("/purchases/orders");
+    const buyOrders = await response.json();
+    const buyOrderIds = buyOrders.map((order, i) => [
+      `ECF-${order.seriesNumber}`,
+      i,
+    ]);
+    const seenDocuments = await sequelize.models.SeenDocument.findAll({
+      where: { company: this.companyId },
+    });
+    for (const id of buyOrderIds) {
+      const [key, i] = id;
+      if (seenDocuments.findIndex((v) => v.key == key) > -1) continue;
+      const buyOrder = buyOrders[i];
+      await sequelize.models.SeenDocument.create({
+        key,
+        company: this.companyId,
+      });
+      return [1, buyOrder];
+    }
+    return [0, null];
   }
 
   async getFetch() {
