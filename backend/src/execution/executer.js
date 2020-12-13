@@ -23,7 +23,7 @@ async function runStep(exec, step) {
   console.log(step), console.log(exec);
   let returnCode = 0;
   switch (step.documentType) {
-    case "clientInvoice":
+    case "buyOrder":
       returnCode = await handleBuyOrder(step.type, step.company, exec);
       break;
     case "docB":
