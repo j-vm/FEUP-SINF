@@ -26,8 +26,8 @@ export default function PrivateRoutes() {
           <Route exact path="/app/" component={Info} />
           <Route path="/app/setup" component={Setup} />
           <Route path="/app/process/1" component={Process} />
-          <Route path="/app/processes" component={Processes} />
-          <Route path={"/app/steps/:id"} component={Steps} /> 
+          <Route exact path="/app/processes" component={Processes} />
+          <Route path="/app/processes/:id/steps" component={Steps} /> 
           <Route path="/app/logs" component={Logs} />
           <Route path="/app/log/1" component={Log} />
           <Route path="/app/sync" component={Sync} />

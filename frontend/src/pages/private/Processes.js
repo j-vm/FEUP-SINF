@@ -92,7 +92,7 @@ function ProcessTable({ processes }) {
                       <Button color="danger">Delete</Button>
                     </td>
                     <td className="text-center align-middle">
-                      <Link to={'/app/steps/' + id }>
+                      <Link to={'/app/processes/' + id + '/steps'}>
                         <Button color="primary">View</Button>
                       </Link>
                     </td>
