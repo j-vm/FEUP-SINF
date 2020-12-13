@@ -62,7 +62,7 @@ function AddProcessForm({ onAdd }) {
 
 function ProcessTable({ processes }) {
   return (
-        <Table dark style={{ textAlign: "center" }}>
+        <Table dark striped style={{ textAlign: "center" }}>
           <thead>
             <tr>
               <th>Process ID</th>

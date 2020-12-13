@@ -20,7 +20,7 @@ async function getData(token, params) {
 
 function StepsTable({ steps }) {
     return (
-        <Table dark style={{ textAlign: "center" }}>
+        <Table dark striped style={{ textAlign: "center" }}>
             <thead>
                 <tr>
                 <th>Step ID</th>
