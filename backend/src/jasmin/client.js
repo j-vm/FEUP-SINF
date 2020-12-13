@@ -2,13 +2,15 @@ const config = require("../config/api");
 const { ClientCredentials } = require("simple-oauth2");
 const nodeFetch = require("node-fetch");
 const { Item } = require("./models");
+const { sequelize } = require("../db");
 
 class JasminClient {
-  constructor(baseUri, authCreds) {
+  constructor(baseUri, authCreds, companyId) {
     this.baseUri = baseUri;
     this.authCreds = authCreds;
     this.fetch = null;
     this.token = null;
+    this.companyId = companyId;
     this.documentsSeen = [];
   }
 
@@ -25,18 +27,28 @@ class JasminClient {
     return parsed.map((item) => new Item(item));
   }
 
-  async getBuyOrder() {
+  async getNewBuyOrder() {
     const fetch = await this.getFetch();
     const response = await fetch("/purchases/orders");
     const buyOrders = await response.json();
-    for (const i in buyOrders) {
+    const buyOrderIds = buyOrders.map((order, i) => [
+      `ECF-${order.seriesNumber}`,
+      i,
+    ]);
+    const seenDocuments = await sequelize.models.SeenDocument.findAll({
+      where: { company: this.companyId },
+    });
+    for (const id of buyOrderIds) {
+      const [key, i] = id;
+      if (seenDocuments.findIndex((v) => v.key == key) > -1) continue;
       const buyOrder = buyOrders[i];
-      if (!this.documentsSeen.includes("ECF-" + buyOrder["seriesNumber"])) {
-        this.documentsSeen.push("ECF-" + buyOrder["seriesNumber"]);
-        return 1, buyOrder;
-      }
+      await sequelize.models.SeenDocument.create({
+        key,
+        company: this.companyId,
+      });
+      return [1, buyOrder];
     }
-    return 0;
+    return [0, null];
   }
 
   async getFetch() {

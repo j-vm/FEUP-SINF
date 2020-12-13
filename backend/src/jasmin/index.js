@@ -22,7 +22,8 @@ module.exports = {
 
     client1 = new JasminClient(
       baseUri(JASMIN_ACCOUNT1, JASMIN_SUBSCRIPTION1),
-      creds1
+      creds1,
+      1
     );
 
     return client1;
@@ -44,7 +45,8 @@ module.exports = {
 
     client2 = new JasminClient(
       baseUri(JASMIN_ACCOUNT2, JASMIN_SUBSCRIPTION2),
-      creds2
+      creds2,
+      2
     );
 
     return client2;

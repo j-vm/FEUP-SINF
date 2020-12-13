@@ -24,7 +24,7 @@ async function runStep(exec, step) {
   let returnCode = 0;
   switch (step.documentType) {
     case "clientInvoice":
-      returnCode = await handleBuyOrder(step.type, step.company);
+      returnCode = await handleBuyOrder(step.type, step.company, exec);
       break;
     case "docB":
       //TODO: returnCode = docB(step.type, exec.id)
@@ -40,7 +40,7 @@ async function runStep(exec, step) {
   return returnCode;
 }
 
-async function handleBuyOrder(type, company) {
+async function handleBuyOrder(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
@@ -48,13 +48,13 @@ async function handleBuyOrder(type, company) {
     //Access Correct endpoint with the json data
     console.log("Emiting Supplier Invoice");
   } else if (type == "wait") {
-    let info;
-    let returnCode;
-    returnCode, (info = await client.getBuyOrder());
+    const [returnCode, info] = await client.getNewBuyOrder();
     console.log("Looking for Supplier Invoice");
     console.log(info);
     console.log(returnCode);
-    //STORE JSON DATA ON FILE WITH FS
+    const smart = await sequelize.models.Execution.findByPk(exec.id);
+    smart.info = JSON.stringify(info);
+    await smart.save();
     return returnCode;
   }
   console.log("ERROR: Unrecognized step type " + type);
