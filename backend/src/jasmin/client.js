@@ -88,7 +88,6 @@ class JasminClient {
     };
     const body = JSON.stringify(bodyContent);
 
-    console.log(body);
     const response = await fetch("/sales/orders", {
       method: "POST",
       headers: {
@@ -98,11 +97,27 @@ class JasminClient {
     });
 
     if (response.ok) {
-      return 1;
+      return [1, await response.json()];
     } else {
       console.log(response);
-      return 0;
+      return [0, null];
     }
+  }
+
+  async getDeliveryNote(selleOrderId) {
+    const fetch = await this.getFetch();
+    const response = await fetch("/shipping/deliveries");
+    const deliveryNotes = await response.json();
+
+    const deliveryNote = deliveryNotes.find(
+      (deliveryNote) =>
+        deliveryNote.documentLines.find(
+          (documentLine) => documentLine.sourceDocId == selleOrderId
+        ) != undefined
+    );
+
+    if (deliveryNote == undefined) return [0, null];
+    return [1, buyOrder];
   }
 
   async getFetch() {

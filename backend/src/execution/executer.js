@@ -63,7 +63,7 @@ async function handleBuyOrder(type, company, exec) {
     console.log(info);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
-    smart.info = JSON.stringify(info);
+    smart.info = JSON.stringify({ buyOrder: info });
     smart.stepAt += returnCode;
     await smart.save();
     return;
@@ -75,7 +75,7 @@ async function handleSellOrder(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    const returnCode = await client.generateSellOrder(exec.info);
+    const [returnCode, sellOrderId] = await client.generateSellOrder(exec.info);
     console.log("Emitting SellOrder");
     exec.stepAt = exec.stepAt + returnCode;
     await exec.save();
@@ -95,9 +95,8 @@ async function handleDeliveryNote(type, company, exec) {
     //Access Correct endpoint with the json data
     console.log("Emiting Delivery Note not Supported");
     return 0;
-    console.log(typeof exec.stepAt);
   } else if (type == "wait") {
-    const [returnCode, info] = await client.getDeliveryNote();
+    const [returnCode, info] = await client.getDeliveryNote(info);
     console.log("Looking for Delivery Note");
     console.log(info);
     console.log(returnCode);
