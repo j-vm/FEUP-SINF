@@ -19,7 +19,7 @@ async function getData(token) {
 function InformationTables({ data }) {
   const [info1, info2] = data;
   return (
-    <Row>
+    <Row className="mt-5">
       <Col>
         <Table dark striped responsive>
           <thead className="thead-dark">
@@ -146,7 +146,14 @@ export const Info = () => {
   if (data === null) getData(token).then(setData);
 
   return data !== null ? (
-    <InformationTables data={data} />
+    <>
+      <Row>
+        <Col sm="12">
+          <h1 className="text-center">Intercompanies Information</h1>
+          <InformationTables data={data} />
+        </Col>
+      </Row>
+    </>
   ) : (
     <p> Loading ...</p>
   );

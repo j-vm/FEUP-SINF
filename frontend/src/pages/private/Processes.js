@@ -51,7 +51,7 @@ function AddProcessForm({ onAdd }) {
                 setProcessName("");
               });
             }}
-          color="info">
+          color="primary">
             Add New Process
           </Button>{" "}
         </InputGroupAddon>
@@ -62,46 +62,46 @@ function AddProcessForm({ onAdd }) {
 
 function ProcessTable({ processes }) {
   return (
-        <Table dark striped style={{ textAlign: "center" }}>
-          <thead>
-            <tr>
-              <th>Process ID</th>
-              <th>Process Name</th>
-              <th>Number of Steps</th>
-              <th>Delete</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {processes.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="text-center">
-                  No processes found
+    <Table dark striped style={{ textAlign: "center" }}>
+      <thead>
+        <tr>
+          <th>Process ID</th>
+          <th>Process Name</th>
+          <th>Number of Steps</th>
+          <th>Delete</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {processes.length === 0 ? (
+          <tr>
+            <td colSpan="5" className="text-center">
+              No processes found
+            </td>
+          </tr>
+        ) : (
+          processes.map((process) => {
+            const { id, name, numberSteps } = process;
+            return (
+              <tr key={id}>
+                <td className="text-center align-middle">{id}</td>
+                <td className="text-center align-middle">{name}</td>
+                <td className="text-center align-middle">{numberSteps}</td>
+
+                <td className="text-center align-middle">
+                  <Button color="danger">Delete</Button>
+                </td>
+                <td className="text-center align-middle">
+                  <Link to={'/app/processes/' + id + '/steps'}>
+                    <Button color="primary">View</Button>
+                  </Link>
                 </td>
               </tr>
-            ) : (
-              processes.map((process) => {
-                const { id, name, numberSteps } = process;
-                return (
-                  <tr key={id}>
-                    <td className="text-center align-middle">{id}</td>
-                    <td className="text-center align-middle">{name}</td>
-                    <td className="text-center align-middle">{numberSteps}</td>
-
-                    <td className="text-center align-middle">
-                      <Button color="danger">Delete</Button>
-                    </td>
-                    <td className="text-center align-middle">
-                      <Link to={'/app/processes/' + id + '/steps'}>
-                        <Button color="primary">View</Button>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </Table>
+            );
+          })
+        )}
+      </tbody>
+    </Table>
   );
 }
 
@@ -125,6 +125,7 @@ export const Processes = () => {
           <AddProcessForm onAdd={onAdd}></AddProcessForm>
         </Col>
         <Col sm="12" className="mt-5">
+          <h2>Processes Listing</h2>
           <ProcessTable processes={data} />
         </Col>
       </Row>
