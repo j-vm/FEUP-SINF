@@ -75,13 +75,20 @@ async function handleSellOrder(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    const [returnCode, sellOrderId] = await client.generateSellOrder(exec.info);
-    console.log("Emitting SellOrder");
-    exec.stepAt = exec.stepAt + returnCode;
-    await exec.save();
+    const info = JSON.parse(exec.info);
+    const [returnCode, sellOrderId] = await client.generateSellOrder(
+      info.buyOrder
+    );
+    console.log("Emitted SellOrder");
+    if (returnCode == 1) {
+      info.sellOrder = sellOrderId;
+      exec.stepAt = exec.stepAt + 1;
+      exec.info = JSON.stringify(info);
+      await exec.save();
+    }
     return returnCode;
   } else if (type == "wait") {
-    console.log("Wait not supported for Supplier Invoice");
+    console.log("Wait not supported for sell order");
     return;
   }
   console.log("ERROR: Unrecognized step type " + type);
@@ -96,13 +103,18 @@ async function handleDeliveryNote(type, company, exec) {
     console.log("Emiting Delivery Note not Supported");
     return 0;
   } else if (type == "wait") {
-    const [returnCode, info] = await client.getDeliveryNote(info);
+    const info = JSON.parse(exec.info);
+    const [returnCode, deliveryNote] = await client.getDeliveryNote(
+      info.sellOrder
+    );
+    if (returnCode == 0) return 0;
     console.log("Looking for Delivery Note");
-    console.log(info);
+    console.log(deliveryNote);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
+    info.deliveryNote = deliveryNote;
     smart.info = JSON.stringify(info);
-    smart.stepAt += returnCode;
+    smart.stepAt += 1;
     await smart.save();
     return returnCode;
   }
@@ -113,18 +125,21 @@ async function handleOrderReceipt(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    const [returnCode, info] = await client.generateOrderReceipt();
-    console.log("Emitting Order Receipt");
-    console.log(info);
-    console.log(returnCode);
-    const smart = await sequelize.models.Execution.findByPk(exec.id);
-    smart.info = JSON.stringify(info);
-    smart.stepAt += returnCode;
-    await smart.save();
+    const info = JSON.parse(exec.info);
+    const [returnCode, orderReceiptId] = await client.generateOrderReceipt(
+      info.deliveryNote
+    );
+    console.log("Emitted order receipt");
+    if (returnCode == 1) {
+      info.orderReceipt = orderReceiptId;
+      exec.stepAt = exec.stepAt + 1;
+      exec.info = JSON.stringify(info);
+      await exec.save();
+    }
     return returnCode;
   } else if (type == "wait") {
-    console.log("Wait not supported for Order Receipt");
-    return 0;
+    console.log("Wait not supported for order receipt");
+    return;
   }
   console.log("ERROR: Unrecognized step type " + type);
 }
@@ -138,13 +153,16 @@ async function handleInvoice(type, company, exec) {
     console.log("Emiting Invoice not Supported");
     return 0;
   } else if (type == "wait") {
-    const [returnCode, info] = await client.getInvoice();
+    const info = JSON.parse(exec.info);
     console.log("Looking for Invoice");
-    console.log(info);
+    const [returnCode, invoice] = await client.getInvoice(info.deliveryNote);
+    if (returnCode == 0) return 0;
+    console.log(invoice);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
+    info.invoice = invoice;
     smart.info = JSON.stringify(info);
-    smart.stepAt += returnCode;
+    smart.stepAt += 1;
     await smart.save();
     return returnCode;
   }
@@ -155,14 +173,17 @@ async function handleInvoiceReceipt(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    const [returnCode, info] = await client.generateInvoiceReceipt();
-    console.log("Emitting Invoice Receipt");
-    console.log(info);
-    console.log(returnCode);
-    const smart = await sequelize.models.Execution.findByPk(exec.id);
-    smart.info = JSON.stringify(info);
-    smart.stepAt += returnCode;
-    await smart.save();
+    const info = JSON.parse(exec.info);
+    const [returnCode, invoiceReceiptId] = await client.generateInvoiceReceipt(
+      info.orderReceipt
+    );
+    console.log("Emitted invoice receipt");
+    if (returnCode == 1) {
+      info.invoiceReceipt = invoiceReceiptId;
+      exec.stepAt = exec.stepAt + 1;
+      exec.info = JSON.stringify(info);
+      await exec.save();
+    }
     return returnCode;
   } else if (type == "wait") {
     console.log("Wait not supported for Invoice Receipt");
@@ -177,16 +198,19 @@ async function handlePayment(type, company, exec) {
   if (type == "emit") {
     //GET JSON DATA FROM FILE WITH FS
     //Access Correct endpoint with the json data
-    console.log("Emiting Payment not Supported");
+    console.log("Emitting payment not supported");
     return 0;
   } else if (type == "wait") {
-    const [returnCode, info] = await client.getNewBuyOrder();
-    console.log("Looking for Payment");
-    console.log(info);
+    const info = JSON.parse(exec.info);
+    console.log("Looking for payment");
+    const [returnCode, payment] = await client.getPayment(info.orderReceipt);
+    if (returnCode == 0) return 0;
+    console.log(payment);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
+    info.payment = payment;
     smart.info = JSON.stringify(info);
-    smart.stepAt += returnCode;
+    smart.stepAt += 1;
     await smart.save();
     return returnCode;
   }
@@ -197,14 +221,17 @@ async function handleReceipt(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    const [returnCode, info] = await client.generateSellOrder();
-    console.log("Emitting Receipt");
-    console.log(info);
-    console.log(returnCode);
-    const smart = await sequelize.models.Execution.findByPk(exec.id);
-    smart.info = JSON.stringify(info);
-    smart.stepAt += returnCode;
-    await smart.save();
+    const info = JSON.parse(exec.info);
+    const [returnCode, paymentReceiptId] = await client.generateInvoiceReceipt(
+      info.invoice
+    );
+    console.log("Emitted payment receipt");
+    if (returnCode == 1) {
+      info.paymentReceipt = paymentReceiptId;
+      exec.stepAt = exec.stepAt + 1;
+      exec.info = JSON.stringify(info);
+      await exec.save();
+    }
     return returnCode;
   } else if (type == "wait") {
     console.log("Wait not supported for Receipt");

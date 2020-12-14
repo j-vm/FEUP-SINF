@@ -53,9 +53,8 @@ class JasminClient {
 
   async generateSellOrder(info) {
     const fetch = await this.getFetch();
-    const parsedInfo = JSON.parse(info);
     const associations = await sequelize.models.ItemAssociation.findAll();
-    const documentLines = parsedInfo.documentLines.map((documentline) => {
+    const documentLines = info.documentLines.map((documentline) => {
       if (this.companyId == 1) {
         const association = associations.find(
           (association) => association.company2Id == documentline.purchasesItem
@@ -81,9 +80,9 @@ class JasminClient {
       return 0;
     }
     const bodyContent = {
-      companyID: parsedInfo.sellerSupplierPartyId,
-      buyerCustomerParty: parsedInfo.accountingParty,
-      deliveryTerm: parsedInfo.deliveryTerm,
+      companyID: info.sellerSupplierPartyId,
+      buyerCustomerParty: info.accountingParty,
+      deliveryTerm: info.deliveryTerm,
       documentLines,
     };
     const body = JSON.stringify(bodyContent);
@@ -104,7 +103,7 @@ class JasminClient {
     }
   }
 
-  async getDeliveryNote(selleOrderId) {
+  async getDeliveryNote(sellOrderId) {
     const fetch = await this.getFetch();
     const response = await fetch("/shipping/deliveries");
     const deliveryNotes = await response.json();
@@ -112,12 +111,12 @@ class JasminClient {
     const deliveryNote = deliveryNotes.find(
       (deliveryNote) =>
         deliveryNote.documentLines.find(
-          (documentLine) => documentLine.sourceDocId == selleOrderId
+          (documentLine) => documentLine.sourceDocId == sellOrderId
         ) != undefined
     );
 
     if (deliveryNote == undefined) return [0, null];
-    return [1, buyOrder];
+    return [1, deliveryNote];
   }
 
   async getFetch() {
