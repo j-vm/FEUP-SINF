@@ -155,7 +155,7 @@ class JasminClient {
 
   async getInvoice(deliveryNote) {
     const fetch = await this.getFetch();
-    const response = await fetch("/shipping/deliveries");
+    const response = await fetch("/billing/invoices");
     const invoices = await response.json();
     const invoice = invoices.find(
       (invoice) =>
