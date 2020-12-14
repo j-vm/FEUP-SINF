@@ -77,7 +77,7 @@ class JasminClient {
     });
     if (documentLines == null) {
       console.log("Couldn't find item association");
-      return 0;
+      return [0, null];
     }
     const bodyContent = {
       companyID: info.sellerSupplierPartyId,
@@ -94,29 +94,78 @@ class JasminClient {
       },
       body: body,
     });
-
+    const id = await response.json();
     if (response.ok) {
-      return [1, await response.json()];
+      const info = await fetch("/sales/orders/" + id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return [1, await info.json()];
     } else {
       console.log(response);
       return [0, null];
     }
   }
 
-  async getDeliveryNote(sellOrderId) {
+  async getDeliveryNote(sellOrder) {
     const fetch = await this.getFetch();
     const response = await fetch("/shipping/deliveries");
     const deliveryNotes = await response.json();
-
     const deliveryNote = deliveryNotes.find(
       (deliveryNote) =>
         deliveryNote.documentLines.find(
-          (documentLine) => documentLine.sourceDocId == sellOrderId
+          (documentLine) => documentLine.sourceDoc == sellOrder
         ) != undefined
     );
 
     if (deliveryNote == undefined) return [0, null];
     return [1, deliveryNote];
+  }
+
+  async generateOrderReceipt(buyOrder) {
+    const fetch = await this.getFetch();
+    const companyId = buyOrder.company;
+    const sourceDocKey = buyOrder.naturalKey;
+    const documentLines = buyOrder.documentLines.map((documentline, index) => {
+      return {
+        sourceDocKey: sourceDocKey,
+        sourceDocLineNumber: index + 1,
+        quantity: documentline.quantity,
+      };
+    });
+    const bodyContent = documentLines;
+    const body = JSON.stringify(bodyContent);
+    console.log(body);
+    const response = await fetch("/goodsReceipt/processOrders/" + companyId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    });
+    if (response.ok) {
+      return [1, await response.json()];
+    } else {
+      console.log(await response.text());
+      return [0, null];
+    }
+  }
+
+  async getInvoice(deliveryNote) {
+    const fetch = await this.getFetch();
+    const response = await fetch("/shipping/deliveries");
+    const invoices = await response.json();
+    const invoice = invoices.find(
+      (invoice) =>
+        invoice.documentLines.find(
+          (documentLine) => documentLine.sourceDoc == deliveryNote
+        ) != undefined
+    );
+    console.log(invoice);
+    if (invoice == undefined) return [0, null];
+    return [1, invoice];
   }
 
   async getFetch() {
