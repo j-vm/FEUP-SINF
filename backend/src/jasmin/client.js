@@ -53,22 +53,56 @@ class JasminClient {
 
   async generateSellOrder(info) {
     const fetch = await this.getFetch();
-    const products = {},
-    const bodyContent = {
-      companyID: info.sellerSupplierPartyId,
-      buyerCustomerParty: info.accountingParty,
-      deliveryTerm: info.deliveryTerm,
-      documentLines: [
-        products
-      ]
-    };
-    const body = JSON.stringify;
-    const response = await fetch("/sales/orders/", {
-      method: "POST",
-      body,
-      headers: { "Content-Type": "application/json" },
+    const parsedInfo = JSON.parse(info);
+    const associations = await sequelize.models.ItemAssociation.findAll();
+    const documentLines = parsedInfo.documentLines.map((documentline) => {
+      if (this.companyId == 1) {
+        const association = associations.find(
+          (association) => association.company2Id == documentline.purchasesItem
+        );
+        if (association == null) return null;
+        return {
+          quantity: documentline.quantity,
+          salesItem: association.company1Id,
+        };
+      } else {
+        const association = associations.find(
+          (association) => association.company1Id == documentline.purchasesItem
+        );
+        if (association == null) return null;
+        return {
+          quantity: documentline.quantity,
+          salesItem: association.company2Id,
+        };
+      }
     });
-    return await response.ok();
+    if (documentLines == null) {
+      console.log("Couldn't find item association");
+      return 0;
+    }
+    const bodyContent = {
+      companyID: parsedInfo.sellerSupplierPartyId,
+      buyerCustomerParty: parsedInfo.accountingParty,
+      deliveryTerm: parsedInfo.deliveryTerm,
+      documentLines,
+    };
+    const body = JSON.stringify(bodyContent);
+
+    console.log(body);
+    const response = await fetch("/sales/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    });
+
+    if (response.ok) {
+      return 1;
+    } else {
+      console.log(response);
+      return 0;
+    }
   }
 
   async getFetch() {

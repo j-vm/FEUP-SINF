@@ -46,7 +46,7 @@ async function runStep(exec, step) {
       console.log("ERROR: Unrecognized Document type " + step.documentType);
       return;
   }
-  return returnCode;
+  return;
 }
 
 async function handleBuyOrder(type, company, exec) {
@@ -66,7 +66,7 @@ async function handleBuyOrder(type, company, exec) {
     smart.info = JSON.stringify(info);
     smart.stepAt += returnCode;
     await smart.save();
-    return returnCode;
+    return;
   }
   console.log("ERROR: Unrecognized step type " + type);
 }
@@ -75,18 +75,14 @@ async function handleSellOrder(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    const [returnCode, info] = await client.generateSellOrder();
+    const returnCode = await client.generateSellOrder(exec.info);
     console.log("Emitting SellOrder");
-    console.log(info);
-    console.log(returnCode);
-    const smart = await sequelize.models.Execution.findByPk(exec.id);
-    smart.info = JSON.stringify(info);
-    smart.stepAt += returnCode;
-    await smart.save();
+    exec.stepAt = exec.stepAt + returnCode;
+    await exec.save();
     return returnCode;
   } else if (type == "wait") {
     console.log("Wait not supported for Supplier Invoice");
-    return 0;
+    return;
   }
   console.log("ERROR: Unrecognized step type " + type);
 }
@@ -99,6 +95,7 @@ async function handleDeliveryNote(type, company, exec) {
     //Access Correct endpoint with the json data
     console.log("Emiting Delivery Note not Supported");
     return 0;
+    console.log(typeof exec.stepAt);
   } else if (type == "wait") {
     const [returnCode, info] = await client.getDeliveryNote();
     console.log("Looking for Delivery Note");
