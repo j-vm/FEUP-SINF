@@ -30,15 +30,6 @@ for (const envVar of REQUIRED_ENV_VARIABLES) {
   }
 }
 
-// to test web api flow
-// const { client1 } = require("./jasmin");
-// const etc = async () => {
-//   const client = client1();
-//   const companies = await client.getCompanies();
-//   console.log(companies);
-// };
-// etc();
-
 const koa = require("koa");
 const app = new koa();
 
@@ -46,6 +37,25 @@ if (isDev) {
   const logger = require("koa-logger");
   app.use(new logger());
 }
+
+const { client1, client2 } = require("./jasmin");
+const { sequelize } = require("./db");
+(async () => {
+  let [client1Docs, client2Docs] = await Promise.all([
+    client1().getAllDocuments(),
+    client2().getAllDocuments(),
+  ]);
+  client1Docs = client1Docs.map((key) => {
+    return { key, company: 1 };
+  });
+  client2Docs = client2Docs.map((key) => {
+    return { key, company: 2 };
+  });
+  await sequelize.models.SeenDocument.bulkCreate([
+    ...client1Docs,
+    ...client2Docs,
+  ]);
+})();
 
 const koaJson = require("koa-json");
 if (isDev) {
