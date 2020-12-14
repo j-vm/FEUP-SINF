@@ -27,7 +27,7 @@ async function runStep(exec, step) {
     case "deliveryNote":
       await handleDeliveryNote(step.type, step.company, exec);
       break;
-    case "warehouseReception": //orderReceipt
+    case "orderReceipt":
       await handleOrderReceipt(step.type, step.company, exec);
       break;
     case "invoice":
