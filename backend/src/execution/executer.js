@@ -24,15 +24,29 @@ async function runStep(exec, step) {
   let returnCode = 0;
   switch (step.documentType) {
     case "buyOrder":
-      returnCode = await handleBuyOrder(step.type, step.company, exec);
+      await handleBuyOrder(step.type, step.company, exec);
       break;
-    case "docB":
-      //TODO: returnCode = docB(step.type, exec.id)
+    case "sellOrder":
+      await handleSellOrder(step.type, step.company, exec);
       break;
-    case "docC":
-      //TODO: returnCode = docC(step.type, exec.id)
+    case "deliveryNote":
+      await handleDeliveryNote(step.type, step.company, exec);
       break;
-
+    case "orderReceipt":
+      await handleOrderReceipt(step.type, step.company, exec);
+      break;
+    case "invoice":
+      await handleInvoice(step.type, step.company, exec);
+      break;
+    case "invoiceReceipt":
+      await handleInvoiceReceipt(step.type, step.company, exec);
+      break;
+    case "payment":
+      await handlePayment(step.type, step.company, exec);
+      break;
+    case "receipt":
+      await handleReceipt(step.type, step.company, exec);
+      break;
     default:
       console.log("ERROR: Unrecognized Document type " + step.documentType);
       return 1;
