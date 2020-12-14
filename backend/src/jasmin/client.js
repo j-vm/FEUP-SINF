@@ -62,10 +62,7 @@ class JasminClient {
     const fetch = await this.getFetch();
     const response = await fetch("/purchases/orders");
     const buyOrders = await response.json();
-    const buyOrderIds = buyOrders.map((order, i) => [
-      `ECF-${order.seriesNumber}`,
-      i,
-    ]);
+    const buyOrderIds = buyOrders.map((order, i) => [order.naturalKey, i]);
     const seenDocuments = await sequelize.models.SeenDocument.findAll({
       where: { company: this.companyId },
     });
