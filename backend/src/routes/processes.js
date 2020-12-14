@@ -39,6 +39,7 @@ router.get("/:id/steps", async (ctx) => {
     return {
       order: result.order,
       id: result.processId,
+      company: result.company,
       type: result.type,
       docType: result.documentType,
     };
