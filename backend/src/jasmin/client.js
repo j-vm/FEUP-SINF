@@ -160,12 +160,39 @@ class JasminClient {
     const invoice = invoices.find(
       (invoice) =>
         invoice.documentLines.find(
-          (documentLine) => documentLine.sourceDoc == deliveryNote
+          (documentLine) => documentLine.delivery == deliveryNote
         ) != undefined
     );
     console.log(invoice);
     if (invoice == undefined) return [0, null];
     return [1, invoice];
+  }
+
+  async generateInvoiceReceipt(orderReceipt) {
+    const fetch = await this.getFetch();
+    const companyId = orderReceipt.company;
+    const bodyContent = orderReceipt.map((item, index) => {
+      return {
+        goodsReceiptNoteId: item.id,
+        goodsReceiptNoteLineNumber: index + 1,
+        quantity: item.quantity,
+      };
+    });
+    const body = JSON.stringify(bodyContent);
+    console.log(body);
+    const response = await fetch("/invoiceReceipt/processOrders/" + companyId, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    });
+    if (response.ok) {
+      return [1, await response.json()];
+    } else {
+      console.log(await response.text());
+      return [0, null];
+    }
   }
 
   async getFetch() {
