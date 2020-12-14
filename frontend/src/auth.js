@@ -2,6 +2,7 @@
 
 import React, { useState, useContext, createContext } from "react";
 import auth from "./api/session";
+import jwt_decode from "jwt-decode";
 
 const authContext = createContext();
 
@@ -26,15 +27,24 @@ export const useAuth = () => {
 // Provider hook that creates auth object and handles state
 
 function useProvideAuth() {
-  const [token, setToken] = useState("");
+  let localToken = localStorage.getItem("authToken");
+  if (localToken !== null) {
+    const { exp } = jwt_decode(localToken);
+    if (Date.now() >= exp * 1000) localToken = null;
+  }
+  const [token, setToken] = useState(localToken !== null ? localToken : "");
 
   const signin = async (username, password) => {
     const token = await auth(username, password);
+    localStorage.setItem("authToken", token);
     setToken(token);
     return token;
   };
 
-  const signout = () => setToken("");
+  const signout = () => {
+    setToken("");
+    localStorage.removeItem("authToken");
+  };
 
   // Return the user object and auth methods
 
