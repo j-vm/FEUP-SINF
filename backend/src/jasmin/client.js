@@ -14,6 +14,37 @@ class JasminClient {
     this.documentsSeen = [];
   }
 
+  async getAllDocuments() {
+    const fetch = await this.getFetch();
+    const deliveries = (await (await fetch("/shipping/deliveries")).json()).map(
+      (delivery) => delivery.naturalKey
+    );
+    const sellOrders = (await (await fetch("/sales/orders")).json()).map(
+      (sellOrder) => sellOrder.naturalKey
+    );
+    const invoices = (await (await fetch("/billing/invoices")).json()).map(
+      (invoice) => invoice.naturalKey
+    );
+    const paymentReceipts = (
+      await (await fetch("/accountsReceivable/receipts")).json()
+    ).map((receipt) => receipt.naturalKey);
+    const buyOrders = (await (await fetch("/purchases/orders")).json()).map(
+      (buyOrder) => buyOrder.naturalKey
+    );
+    const invoiceReceipts = (
+      await (await fetch("/invoiceReceipt/invoices")).json()
+    ).map((receipt) => receipt.naturalKey);
+    const out = [
+      ...deliveries,
+      ...sellOrders,
+      ...invoices,
+      ...paymentReceipts,
+      ...buyOrders,
+      ...invoiceReceipts,
+    ];
+    return out;
+  }
+
   async getCompanies() {
     const fetch = await this.getFetch();
     const result = await fetch("/corePatterns/companies");
