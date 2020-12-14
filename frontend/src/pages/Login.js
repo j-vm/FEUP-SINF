@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Form, FormGroup, Label, Input, Button, Media } from "reactstrap";
 import { Redirect } from "react-router-dom";
 import { useAuth } from "../auth";
 import { Layout } from "../components/Layout";
+import ReactLogo from "../besinflogo.png";
 
 const AuthButton = (props) => {
   const { onSubmit } = props;
@@ -13,16 +14,22 @@ const AuthButton = (props) => {
     setState(value);
   };
   return (
-    <div className="container">
-      <Form
-        className="w-100"
+    <div class="mx-auto" >
+      <div class="text-center" >
+        <Media middle href="#" >
+          <Media object src={ReactLogo}  height="400" alt="logo" />
+        </Media>
+        </div>
+    <div className="card-body d-flex justify-content-center" >
+      <Form 
+        className="w-50" 
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit(userName, password);
         }}
       >
         Sign in
-        <FormGroup className="mt-2">
+        <FormGroup  className="mt-2" >
           <Label for="username" hidden>
             Email
           </Label>
@@ -54,6 +61,7 @@ const AuthButton = (props) => {
           </Button>{" "}
         </div>
       </Form>
+    </div>
     </div>
   );
 };

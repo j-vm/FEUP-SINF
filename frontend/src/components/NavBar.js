@@ -11,7 +11,8 @@ import {
   Button,
 } from "reactstrap";
 import { useAuth } from "../auth";
-import ReactLogo from "../logo.svg";
+import ReactLogo from "../squares.png";
+import Sinf from "../besinf.png";
 
 export const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,7 @@ export const NavBar = (props) => {
   return (
     <div>
       <Navbar color="dark" light expand="md">
-        <Link className="text-info navbar-brand" to="/">
+        <Link className="text-info navbar-brand" to="/About/">
           <img
             alt=""
             src={ReactLogo}
@@ -30,7 +31,12 @@ export const NavBar = (props) => {
             height="30"
             className="d-inline-block align-top"
           />
-          <span className="mx-2">InterCompany</span>
+          <span className="mx-2"><img
+            alt=""
+            src={Sinf}
+            width="150"
+            className="d-inline-block align-top"
+          /></span>
         </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
