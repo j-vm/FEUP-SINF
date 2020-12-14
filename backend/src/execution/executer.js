@@ -27,7 +27,7 @@ async function runStep(exec, step) {
     case "deliveryNote":
       await handleDeliveryNote(step.type, step.company, exec);
       break;
-    case "orderReceipt":
+    case "warehouseReception": //orderReceipt
       await handleOrderReceipt(step.type, step.company, exec);
       break;
     case "invoice":
@@ -104,9 +104,11 @@ async function handleDeliveryNote(type, company, exec) {
     return 0;
   } else if (type == "wait") {
     const info = JSON.parse(exec.info);
+    console.log(info.sellOrder.naturalKey);
     const [returnCode, deliveryNote] = await client.getDeliveryNote(
-      info.sellOrder
+      info.sellOrder.naturalKey
     );
+    console.log(returnCode);
     if (returnCode == 0) return 0;
     console.log("Looking for Delivery Note");
     console.log(deliveryNote);
@@ -127,7 +129,7 @@ async function handleOrderReceipt(type, company, exec) {
   if (type == "emit") {
     const info = JSON.parse(exec.info);
     const [returnCode, orderReceiptId] = await client.generateOrderReceipt(
-      info.deliveryNote
+      info.buyOrder
     );
     console.log("Emitted order receipt");
     if (returnCode == 1) {
@@ -155,7 +157,10 @@ async function handleInvoice(type, company, exec) {
   } else if (type == "wait") {
     const info = JSON.parse(exec.info);
     console.log("Looking for Invoice");
-    const [returnCode, invoice] = await client.getInvoice(info.deliveryNote);
+    console.log(info.deliveryNote.naturalKey);
+    const [returnCode, invoice] = await client.getInvoice(
+      info.deliveryNote.naturalKey
+    );
     if (returnCode == 0) return 0;
     console.log(invoice);
     console.log(returnCode);
