@@ -196,25 +196,78 @@ class JasminClient {
     return [1, invoice];
   }
 
-  async generateInvoiceReceipt(orderReceipt) {
+  async generateInvoiceReceipt(orderReceipt, buyOrder) {
     const fetch = await this.getFetch();
-    const companyId = orderReceipt.company;
-    const bodyContent = orderReceipt.map((item, index) => {
+    console.log(buyOrder);
+    const companyId = buyOrder.company;
+    const documentLines = buyOrder.documentLines.map((documentline, index) => {
       return {
-        goodsReceiptNoteId: item.id,
-        goodsReceiptNoteLineNumber: index + 1,
-        quantity: item.quantity,
+        purchasesItem: documentline.purchasesItem,
+        quantity: documentline.quantity,
       };
     });
+    const bodyContent = {
+      company: buyOrder.company,
+      sellerSupplierParty: buyOrder.sellerSupplierParty,
+      documentLines,
+    };
     const body = JSON.stringify(bodyContent);
-    console.log(body);
-    const response = await fetch("/invoiceReceipt/processOrders/" + companyId, {
+    console.log(bodyContent);
+    const response = await fetch("/invoiceReceipt/invoices", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: body,
     });
+    if (response.ok) {
+      return [1, await response.json()];
+    } else {
+      console.log(await response.text());
+      return [0, null];
+    }
+  }
+
+  async getPayment(deliveryNote) {
+    const fetch = await this.getFetch();
+    const response = await fetch("/accountsPayable/payments");
+    const invoices = await response.json();
+    const invoice = invoices.find(
+      (invoice) =>
+        invoice.documentLines.find(
+          (documentLine) => documentLine.delivery == deliveryNote
+        ) != undefined
+    );
+    console.log(invoice);
+    if (invoice == undefined) return [1, null]; //Not available, skiping wait step before compatibility
+    return [1, invoice];
+  }
+
+  async generateReceipt(invoice) {
+    const fetch = await this.getFetch();
+    console.log(invoice);
+    console.log(invoice);
+    const bodyContent = {
+      company: invoice.company,
+      party: invoice.buyerCustomerParty,
+      openAccountPostingLines: [
+        {
+          sourceDoc: invoice.naturalKey,
+          settled: invoice.payableAmount.amount,
+        },
+      ],
+    };
+    const body = JSON.stringify(bodyContent);
+    const response = await fetch(
+      "/accountsReceivable/processOpenItems/generateReceipt",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: body,
+      }
+    );
     if (response.ok) {
       return [1, await response.json()];
     } else {

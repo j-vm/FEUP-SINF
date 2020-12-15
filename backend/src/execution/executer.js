@@ -6,7 +6,11 @@ module.exports = {
   runExecutions: async function (executions, stepsToRun) {
     await Promise.all(
       executions.map(async (execution, index) => {
-        if (stepsToRun[index] == null) return;
+        if (stepsToRun[index] == null) {
+          execution.done = true;
+          await execution.save();
+          return;
+        }
         await runStep(execution, stepsToRun[index]);
         return;
       })
@@ -53,8 +57,6 @@ async function handleBuyOrder(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    //GET JSON DATA FROM FILE WITH FS
-    //Access Correct endpoint with the json data
     console.log("Emiting Buy Order not Supported");
     return 0;
   } else if (type == "wait") {
@@ -98,8 +100,6 @@ async function handleDeliveryNote(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    //GET JSON DATA FROM FILE WITH FS
-    //Access Correct endpoint with the json data
     console.log("Emiting Delivery Note not Supported");
     return 0;
   } else if (type == "wait") {
@@ -150,8 +150,6 @@ async function handleInvoice(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    //GET JSON DATA FROM FILE WITH FS
-    //Access Correct endpoint with the json data
     console.log("Emiting Invoice not Supported");
     return 0;
   } else if (type == "wait") {
@@ -180,7 +178,8 @@ async function handleInvoiceReceipt(type, company, exec) {
   if (type == "emit") {
     const info = JSON.parse(exec.info);
     const [returnCode, invoiceReceiptId] = await client.generateInvoiceReceipt(
-      info.orderReceipt
+      info.orderReceipt,
+      info.buyOrder
     );
     console.log("Emitted invoice receipt");
     if (returnCode == 1) {
@@ -201,8 +200,6 @@ async function handlePayment(type, company, exec) {
   const client = company == 1 ? client1() : client2();
   console.log(client);
   if (type == "emit") {
-    //GET JSON DATA FROM FILE WITH FS
-    //Access Correct endpoint with the json data
     console.log("Emitting payment not supported");
     return 0;
   } else if (type == "wait") {
@@ -227,7 +224,7 @@ async function handleReceipt(type, company, exec) {
   console.log(client);
   if (type == "emit") {
     const info = JSON.parse(exec.info);
-    const [returnCode, paymentReceiptId] = await client.generateInvoiceReceipt(
+    const [returnCode, paymentReceiptId] = await client.generateReceipt(
       info.invoice
     );
     console.log("Emitted payment receipt");
