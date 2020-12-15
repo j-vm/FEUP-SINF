@@ -8,21 +8,23 @@ import feup from "../feup.png";
 export const About = () => {
   return (
     <Layout>
-      <div class="text-center">
-        <Media middle href="#">
-          <Media object src={ReactLogo} height="400" alt="logo" />
-        </Media>
+      <div class="row">
+        <div class="col-12 text-center">
+          <Media middle href="#">
+            <Media object src={ReactLogo} height="400" alt="logo" />
+          </Media>
+        </div>
       </div>
-      <div>
-        <div class="mt-5" style={{ textAlign: "justify" }}>
+      <div class="row" class="mt-5 text-justify">
+        <div class="col-12 mt-5 text-justify">
           <p>
-            <strong>BeSinf</strong> is based on a fundamental pillar:{" "}
+            <strong>BESINF</strong> is based on a fundamental pillar:{" "}
             <strong>garantee our customer's comfort</strong>. We provide a a
             service that automates the business interaction between companies
             and integrates with <strong>PRIMAVERA&#39;s ERP software</strong>.
           </p>
           <p>
-            The <strong>main aim of BeSinf</strong> is to develop an interface
+            The <strong>main aim of BESINF</strong> is to develop an interface
             that allows companies to{" "}
             <strong>define a set of reactive processes</strong> that are
             integrated with the <strong>Jasmin platform</strong>: that is,
@@ -33,7 +35,7 @@ export const About = () => {
             process.
           </p>
           <p>
-            <strong>BeSinf</strong> uses <strong>Jasmin</strong> to deal with
+            <strong>BESINF</strong> uses <strong>Jasmin</strong> to deal with
             all the data and processes surrounding transactions, inventory and
             information about each product.{" "}
           </p>
@@ -44,12 +46,26 @@ export const About = () => {
             the University of Porto (FEUP), supervised by Professor Luís Barros.
           </p>{" "}
         </div>
-        <div class="text-right">
+      </div>
+      <div class="row mt-5">
+        <div class="col-9">
+          <h5 class="font-weight-bold">Elementos do grupo:</h5>
+          <ul>
+            <li>Bernardo Oliveira Teixeira Santos - up201504711@fe.up.pt</li>
+            <li>João Nuno Carvalho de Matos - up201705471@fe.up.pt </li>
+            <li>João Ruano Neto Veiga de Macedo - up201704464@fe.up.pt</li>
+            <li>Maria Marta Nunes Andrade Lobo dos Santos - up201604530@fe.up.pt</li>
+            <li>Miguel Rodrigues Pires - up201406989@fe.up.pt</li>
+          </ul>
+        </div>
+        <div class="col-3 text-right">
           <Media right href="#">
             <Media object src={feup} height="70" alt="feup" />
           </Media>
         </div>
-        <div className="mt-5" style={{ textAlign: "center" }}>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12 text-center">
           <Link to="/app/info/" className="btn btn-info">
             Go Back
           </Link>
