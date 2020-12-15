@@ -55,7 +55,24 @@ const { sequelize } = require("./db");
     ...client1Docs,
     ...client2Docs,
   ]);
-})();
+})().then(() => {
+  const processExecuter = require("./execution/executer");
+  setInterval(async () => {
+    const executions = await sequelize.models.Execution.findAll({
+      where: { done: false },
+      include: sequelize.models.Process,
+    });
+    const stepsToRun = await Promise.all(
+      executions.map(async (execution) => {
+        return await sequelize.models.ProcessStep.findOne({
+          where: { processId: execution.processId, order: execution.stepAt },
+        });
+      })
+    );
+
+    processExecuter.runExecutions(executions, stepsToRun);
+  }, 20_000);
+});
 
 const koaJson = require("koa-json");
 if (isDev) {
