@@ -66,6 +66,7 @@ function AddStepForm({ onAdd }) {
               setDocType(value);
             }}
           >
+            <option value="">Select process</option>
             <option value="buyOrder">Buy Order</option>
             <option value="sellOrder">Sell Order</option>
             <option value="deliveryNote">Delivery Note</option>
