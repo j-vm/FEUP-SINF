@@ -247,7 +247,7 @@ export const Steps = (props) => {
         <Col sm="12" className="mt-5">
           <h2>Steps Listing</h2>
           <StepsTable steps={data} />
-          <Button color="primary" onClick={() => history.goBack()}>
+          <Button color="info" onClick={() => history.goBack()}>
             Go back
           </Button>
         </Col>

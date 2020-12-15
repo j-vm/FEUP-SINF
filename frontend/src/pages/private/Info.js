@@ -20,7 +20,7 @@ function InformationTables({ data }) {
   const [info1, info2] = data;
   return (
     <Row className="mt-5">
-      <Col>
+      <Col md="6">
         <Table dark striped responsive>
           <thead className="thead-dark">
             <tr>
@@ -94,7 +94,7 @@ function InformationTables({ data }) {
         </Table>
       </Col>
 
-      <Col>
+      <Col md="6">
         <Table dark striped responsive>
           <thead className="thead-dark">
             <tr>

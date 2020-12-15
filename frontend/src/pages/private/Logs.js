@@ -91,7 +91,7 @@ function AddLogForm({ onAdd, processes }) {
                 setProcessId("");
               });
             }}
-            color="info"
+            color="primary"
           >
             Start Execution
           </Button>{" "}

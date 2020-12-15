@@ -6,6 +6,7 @@ module.exports = {
     await Promise.all(
       executions.map(async (execution, index) => {
         if (stepsToRun[index] == null) {
+          console.log(`Finished execution #${execution.id}`);
           execution.done = true;
           await execution.save();
           return;
@@ -61,10 +62,11 @@ async function handleBuyOrder(type, company, exec) {
     console.log("Emiting Buy Order not Supported");
     return 0;
   } else if (type == "wait") {
-    const [returnCode, buyOrder] = await client.getNewBuyOrder();
     console.log("Looking for BuyOrder");
-    console.log(buyOrder.naturalKey);
+    const [returnCode, buyOrder] = await client.getNewBuyOrder();
     console.log(returnCode);
+    if (returnCode == 0) return;
+    console.log(buyOrder.naturalKey);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
     smart.info = JSON.stringify({ buyOrder });
     smart.stepAt += returnCode;
@@ -82,6 +84,7 @@ async function handleSellOrder(type, company, exec) {
     const [returnCode, sellOrderId] = await client.generateSellOrder(
       info.buyOrder
     );
+    if (returnCode == 0) return;
     console.log("Emitted SellOrder");
     if (returnCode == 1) {
       info.sellOrder = sellOrderId;
@@ -207,7 +210,6 @@ async function handlePayment(type, company, exec) {
     console.log("Looking for payment");
     const [returnCode, payment] = await client.getPayment(info.orderReceipt);
     if (returnCode == 0) return 0;
-    console.log(payment.naturalKey);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
     info.payment = payment;

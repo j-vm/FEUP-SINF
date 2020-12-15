@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { useAuth } from "../auth";
 import { Layout } from "../components/Layout";
 import ReactLogo from "../besinflogo.png";
+import { Link } from "react-router-dom";
 
 const AuthButton = (props) => {
   const { onSubmit } = props;
@@ -16,9 +17,11 @@ const AuthButton = (props) => {
   return (
     <div class="mx-auto">
       <div class="text-center">
-        <Media middle href="#">
-          <Media object src={ReactLogo} height="400" alt="logo" />
-        </Media>
+        <Link to="/about">
+          <Media middle href="#">
+            <Media object src={ReactLogo} height="400" alt="logo" />
+          </Media>
+        </Link>
       </div>
       <div className="card-body d-flex justify-content-center">
         <Form

@@ -79,10 +79,11 @@ class JasminClient {
     return [0, null];
   }
 
-  async generateSellOrder(info) {
+  async generateSellOrder(buyOrder) {
+    if (!buyOrder) return [0, null];
     const fetch = await this.getFetch();
     const associations = await sequelize.models.ItemAssociation.findAll();
-    const documentLines = info.documentLines.map((documentline) => {
+    const documentLines = buyOrder.documentLines.map((documentline) => {
       if (this.companyId == 1) {
         const association = associations.find(
           (association) => association.company2Id == documentline.purchasesItem
@@ -108,9 +109,9 @@ class JasminClient {
       return [0, null];
     }
     const bodyContent = {
-      companyID: info.sellerSupplierPartyId,
-      buyerCustomerParty: info.accountingParty,
-      deliveryTerm: info.deliveryTerm,
+      companyID: buyOrder.sellerSupplierPartyId,
+      buyerCustomerParty: buyOrder.accountingParty,
+      deliveryTerm: buyOrder.deliveryTerm,
       documentLines,
     };
     const body = JSON.stringify(bodyContent);
@@ -139,6 +140,7 @@ class JasminClient {
   }
 
   async getDeliveryNote(sellOrder) {
+    if (!sellOrder) return [0, null];
     const fetch = await this.getFetch();
     const response = await fetch("/shipping/deliveries");
     const deliveryNotes = await response.json();
@@ -154,6 +156,7 @@ class JasminClient {
   }
 
   async generateOrderReceipt(buyOrder) {
+    if (!buyOrder) return [0, null];
     const fetch = await this.getFetch();
     const companyId = buyOrder.company;
     const sourceDocKey = buyOrder.naturalKey;
@@ -183,6 +186,7 @@ class JasminClient {
   }
 
   async getInvoice(deliveryNote) {
+    if (!deliveryNote) return [0, null];
     const fetch = await this.getFetch();
     const response = await fetch("/billing/invoices");
     const invoices = await response.json();
@@ -197,6 +201,7 @@ class JasminClient {
   }
 
   async generateInvoiceReceipt(buyOrder) {
+    if (!buyOrder) return [0, null];
     const fetch = await this.getFetch();
     const documentLines = buyOrder.documentLines.map((documentline) => {
       return {
@@ -227,6 +232,7 @@ class JasminClient {
   }
 
   async getPayment(deliveryNote) {
+    if (!deliveryNote) return [0, null];
     const fetch = await this.getFetch();
     const response = await fetch("/accountsPayable/payments");
     const invoices = await response.json();
@@ -241,6 +247,7 @@ class JasminClient {
   }
 
   async generateReceipt(invoice) {
+    if (!invoice) return [0, null];
     const fetch = await this.getFetch();
     const bodyContent = {
       company: invoice.company,
