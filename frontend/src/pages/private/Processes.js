@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Table, Container, Button, Row, Col, Form, InputGroup, InputGroupAddon, Label,Input } from "reactstrap";
+import {
+  Table,
+  Button,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  InputGroupAddon,
+  Input,
+  Spinner,
+} from "reactstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../auth";
 
@@ -16,10 +26,10 @@ async function addProcess(token, name) {
   const response = await fetch(`/api/processes`, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({name}),
+    body: JSON.stringify({ name }),
   });
   return await response.json();
 }
@@ -36,13 +46,18 @@ function AddProcessForm({ onAdd }) {
     <Form>
       <h2>Add New Process</h2>
       <InputGroup>
-        <Input type="text" name="process_name" value={process_name} 
+        <Input
+          type="text"
+          name="process_name"
+          value={process_name}
           onChange={(e) => {
-          const { value } = e.target;
-          setProcessName(value);
-        }} placeholder="Insert a new process" />
+            const { value } = e.target;
+            setProcessName(value);
+          }}
+          placeholder="Insert a new process"
+        />
         <InputGroupAddon addonType="append">
-          <Button 
+          <Button
             disabled={clicked || process_name === ""}
             onClick={() => {
               setClicked(true);
@@ -51,7 +66,8 @@ function AddProcessForm({ onAdd }) {
                 setProcessName("");
               });
             }}
-          color="primary">
+            color="primary"
+          >
             Add New Process
           </Button>{" "}
         </InputGroupAddon>
@@ -92,7 +108,7 @@ function ProcessTable({ processes }) {
                   <Button color="danger">Delete</Button>
                 </td>
                 <td className="text-center align-middle">
-                  <Link to={'/app/processes/' + id + '/steps'}>
+                  <Link to={"/app/processes/" + id + "/steps"}>
                     <Button color="primary">View</Button>
                   </Link>
                 </td>
@@ -131,6 +147,8 @@ export const Processes = () => {
       </Row>
     </>
   ) : (
-    <p> Loading ...</p>
+    <p>
+      <Spinner style={{ width: "10rem", height: "10rem" }} />
+    </p>
   );
 };

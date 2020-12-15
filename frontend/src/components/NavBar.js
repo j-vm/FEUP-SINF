@@ -31,12 +31,14 @@ export const NavBar = (props) => {
             height="30"
             className="d-inline-block align-top"
           />
-          <span className="mx-2"><img
-            alt=""
-            src={Sinf}
-            width="150"
-            className="d-inline-block align-top"
-          /></span>
+          <span className="mx-2">
+            <img
+              alt=""
+              src={Sinf}
+              width="150"
+              className="d-inline-block align-top"
+            />
+          </span>
         </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>

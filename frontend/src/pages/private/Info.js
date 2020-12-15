@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Row, Col } from "reactstrap";
+import { Table, Row, Col, Spinner } from "reactstrap";
 import { useAuth } from "../../auth";
 
 async function getInfo(company, token) {
@@ -24,56 +24,72 @@ function InformationTables({ data }) {
         <Table dark striped responsive>
           <thead className="thead-dark">
             <tr>
-              <th scope="col" colSpan="2" className="text-center">Company 1</th>
+              <th scope="col" colSpan="2" className="text-center">
+                Company 1
+              </th>
             </tr>
           </thead>
           <tbody>
-          {(() => {
-            if (info1.length > 0) {
-              return (
-                <>
-                  <tr>
-                    <th scope="row">Name</th>
-                    <td className="text-right align-middle">{info1[1].name}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Currency</th>
-                    <td className="text-right align-middle">{info1[1].baseCurrency}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">City</th>
-                    <td className="text-right align-middle">{info1[1].cityName}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Address</th>
-                    <td className="text-right align-middle">{info1[1].streetName}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Zip Code</th>
-                    <td className="text-right align-middle">{info1[1].postalZone}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Country</th>
-                    <td className="text-right align-middle">{info1[1].countryDescription}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Created On</th>
-                    <td className="text-right align-middle">{info1[1].createdOn.substring(0, 10)}</td>
-                  </tr>
-                </>
-              )
-            } else {
-              return (
-                <div>
-                  <tr>
-                    <td colSpan="2" className="text-center">
-                      No records found
-                    </td>
-                  </tr>
-                </div>
-              )
-            }
-          })()}
+            {(() => {
+              if (info1.length > 0) {
+                return (
+                  <>
+                    <tr>
+                      <th scope="row">Name</th>
+                      <td className="text-right align-middle">
+                        {info1[1].name}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Currency</th>
+                      <td className="text-right align-middle">
+                        {info1[1].baseCurrency}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">City</th>
+                      <td className="text-right align-middle">
+                        {info1[1].cityName}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Address</th>
+                      <td className="text-right align-middle">
+                        {info1[1].streetName}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Zip Code</th>
+                      <td className="text-right align-middle">
+                        {info1[1].postalZone}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Country</th>
+                      <td className="text-right align-middle">
+                        {info1[1].countryDescription}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Created On</th>
+                      <td className="text-right align-middle">
+                        {info1[1].createdOn.substring(0, 10)}
+                      </td>
+                    </tr>
+                  </>
+                );
+              } else {
+                return (
+                  <div>
+                    <tr>
+                      <td colSpan="2" className="text-center">
+                        No records found
+                      </td>
+                    </tr>
+                  </div>
+                );
+              }
+            })()}
           </tbody>
         </Table>
       </Col>
@@ -82,56 +98,72 @@ function InformationTables({ data }) {
         <Table dark striped responsive>
           <thead className="thead-dark">
             <tr>
-              <th scope="col" colSpan="2" className="text-center">Company 2</th>
+              <th scope="col" colSpan="2" className="text-center">
+                Company 2
+              </th>
             </tr>
           </thead>
           <tbody>
-          {(() => {
-            if (info2.length > 0) {
-              return (
-                <>
-                  <tr>
-                    <th scope="row">Name</th>
-                    <td className="text-right align-middle">{info2[1].name}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Currency</th>
-                    <td className="text-right align-middle">{info2[1].baseCurrency}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">City</th>
-                    <td className="text-right align-middle">{info2[1].cityName}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Address</th>
-                    <td className="text-right align-middle">{info2[1].streetName}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Zip Code</th>
-                    <td className="text-right align-middle">{info2[1].postalZone}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Country</th>
-                    <td className="text-right align-middle">{info2[1].countryDescription}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Created On</th>
-                    <td className="text-right align-middle">{info2[1].createdOn.substring(0, 10)}</td>
-                  </tr>
-                </>
-              )
-            } else {
-              return (
-                <div>
-                  <tr>
-                    <td colSpan="2" className="text-center">
-                      No records found
-                    </td>
-                  </tr>
-                </div>
-              )
-            }
-          })()}
+            {(() => {
+              if (info2.length > 0) {
+                return (
+                  <>
+                    <tr>
+                      <th scope="row">Name</th>
+                      <td className="text-right align-middle">
+                        {info2[1].name}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Currency</th>
+                      <td className="text-right align-middle">
+                        {info2[1].baseCurrency}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">City</th>
+                      <td className="text-right align-middle">
+                        {info2[1].cityName}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Address</th>
+                      <td className="text-right align-middle">
+                        {info2[1].streetName}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Zip Code</th>
+                      <td className="text-right align-middle">
+                        {info2[1].postalZone}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Country</th>
+                      <td className="text-right align-middle">
+                        {info2[1].countryDescription}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Created On</th>
+                      <td className="text-right align-middle">
+                        {info2[1].createdOn.substring(0, 10)}
+                      </td>
+                    </tr>
+                  </>
+                );
+              } else {
+                return (
+                  <div>
+                    <tr>
+                      <td colSpan="2" className="text-center">
+                        No records found
+                      </td>
+                    </tr>
+                  </div>
+                );
+              }
+            })()}
           </tbody>
         </Table>
       </Col>
@@ -149,12 +181,14 @@ export const Info = () => {
     <>
       <Row>
         <Col sm="12">
-          <h1 className="text-center">Intercompanies Information</h1>
+          <h1 className="text-center">Connection Information</h1>
           <InformationTables data={data} />
         </Col>
       </Row>
     </>
   ) : (
-    <p> Loading ...</p>
+    <p>
+      <Spinner style={{ width: "10rem", height: "10rem" }} />
+    </p>
   );
 };

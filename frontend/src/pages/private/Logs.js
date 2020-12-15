@@ -53,7 +53,7 @@ function AddLogForm({ onAdd, processes }) {
   const [processId, setProcessId] = useState("");
   return (
     <Form>
-      <h2>Add New Log</h2>
+      <h2>Add New Execution</h2>
       <Row className="mt-3">
         <Col sm="10">
           <Label for="processId">Process</Label>
@@ -93,7 +93,7 @@ function AddLogForm({ onAdd, processes }) {
             }}
             color="info"
           >
-            Add New Step
+            Start Execution
           </Button>{" "}
         </Col>
       </Row>
@@ -164,6 +164,8 @@ export const Logs = () => {
       </Row>
     </>
   ) : (
-    <p> Loading ...</p>
+    <p>
+      <Spinner style={{ width: "10rem", height: "10rem" }} />
+    </p>
   );
 };

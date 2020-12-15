@@ -8,6 +8,7 @@ import {
   FormGroup,
   Label,
   Input,
+  Spinner,
 } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../auth";
@@ -66,15 +67,29 @@ function AddStepForm({ onAdd }) {
               setDocType(value);
             }}
           >
-            <option value="">Select process</option>
-            <option value="buyOrder">Buy Order</option>
-            <option value="sellOrder">Sell Order</option>
-            <option value="deliveryNote">Delivery Note</option>
-            <option value="orderReceipt">Order Receipt</option>
-            <option value="invoice">Invoice</option>
-            <option value="invoiceReceipt">Supplier Invoice</option>
-            <option value="payment">Proof of Payment</option>
-            <option value="receipt">Payment Receipt</option>
+            <option value="">Select Document</option>
+            <option value="buyOrder">Buy Order - Detectable, initiator</option>
+            <option value="sellOrder">
+              Sell Order - Publishable, needs Buy Order
+            </option>
+            <option value="deliveryNote">
+              Delivery Note - Detectable, needs Sell Order
+            </option>
+            <option value="orderReceipt">
+              Order Receipt - Publishable, needs Buy Order
+            </option>
+            <option value="invoice">
+              Invoice - Detectable, needs Delivery Note
+            </option>
+            <option value="invoiceReceipt">
+              Supplier Invoice - Publishable, needs Buy Order and Order Receipt
+            </option>
+            <option value="payment">
+              Proof of Payment - Detectable, needs Order Receipt
+            </option>
+            <option value="receipt">
+              Receipt - Publishable, needs Invoice
+            </option>
           </Input>
         </Col>
       </Row>
@@ -178,7 +193,7 @@ function StepsTable({ steps }) {
       <tbody>
         {steps.length === 0 ? (
           <tr>
-            <td colSpan="2" className="text-center">
+            <td colSpan="4" className="text-center">
               No steps found
             </td>
           </tr>
@@ -239,6 +254,8 @@ export const Steps = (props) => {
       </Row>
     </>
   ) : (
-    <p> Loading ...</p>
+    <p>
+      <Spinner style={{ width: "10rem", height: "10rem" }} />
+    </p>
   );
 };

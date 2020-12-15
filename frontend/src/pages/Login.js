@@ -14,54 +14,54 @@ const AuthButton = (props) => {
     setState(value);
   };
   return (
-    <div class="mx-auto" >
-      <div class="text-center" >
-        <Media middle href="#" >
-          <Media object src={ReactLogo}  height="400" alt="logo" />
+    <div class="mx-auto">
+      <div class="text-center">
+        <Media middle href="#">
+          <Media object src={ReactLogo} height="400" alt="logo" />
         </Media>
-        </div>
-    <div className="card-body d-flex justify-content-center" >
-      <Form 
-        className="w-50" 
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit(userName, password);
-        }}
-      >
-        Sign in
-        <FormGroup  className="mt-2" >
-          <Label for="username" hidden>
-            Email
-          </Label>
-          <Input
-            type="username"
-            name="userName"
-            id="username"
-            placeholder="Username"
-            value={userName}
-            onChange={(e) => handleChange(e, setUserName)}
-          />
-        </FormGroup>{" "}
-        <FormGroup>
-          <Label for="examplePassword" hidden>
-            Password
-          </Label>
-          <Input
-            type="password"
-            name="password"
-            id="examplePassword"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => handleChange(e, setPassword)}
-          />
-        </FormGroup>{" "}
-        <div className="text-center">
-          <Button type="submit" color="success">
-            Log In
-          </Button>{" "}
-        </div>
-      </Form>
-    </div>
+      </div>
+      <div className="card-body d-flex justify-content-center">
+        <Form
+          className="w-50"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit(userName, password);
+          }}
+        >
+          Sign in
+          <FormGroup className="mt-2">
+            <Label for="username" hidden>
+              Email
+            </Label>
+            <Input
+              type="username"
+              name="userName"
+              id="username"
+              placeholder="Username"
+              value={userName}
+              onChange={(e) => handleChange(e, setUserName)}
+            />
+          </FormGroup>{" "}
+          <FormGroup>
+            <Label for="examplePassword" hidden>
+              Password
+            </Label>
+            <Input
+              type="password"
+              name="password"
+              id="examplePassword"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => handleChange(e, setPassword)}
+            />
+          </FormGroup>{" "}
+          <div className="text-center">
+            <Button type="submit" color="success">
+              Log In
+            </Button>{" "}
+          </div>
+        </Form>
+      </div>
     </div>
   );
 };
