@@ -1,4 +1,3 @@
-const models = require("../jasmin/models");
 const { sequelize } = require("../db");
 const { client1, client2 } = require("../jasmin/index");
 
@@ -20,7 +19,9 @@ module.exports = {
 
 // return 1 if successful
 async function runStep(exec, step) {
-  console.log(step), console.log(exec);
+  console.log(
+    `Running step ${step.type}-${step.documentType} for execution ${exec.id}`
+  );
   switch (step.documentType) {
     case "buyOrder":
       await handleBuyOrder(step.type, step.company, exec);
@@ -47,7 +48,7 @@ async function runStep(exec, step) {
       await handleReceipt(step.type, step.company, exec);
       break;
     default:
-      console.log("ERROR: Unrecognized Document type " + step.documentType);
+      console.error("ERROR: Unrecognized document type " + step.documentType);
       return;
   }
   return;
@@ -55,17 +56,17 @@ async function runStep(exec, step) {
 
 async function handleBuyOrder(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     console.log("Emiting Buy Order not Supported");
     return 0;
   } else if (type == "wait") {
-    const [returnCode, info] = await client.getNewBuyOrder();
+    const [returnCode, buyOrder] = await client.getNewBuyOrder();
     console.log("Looking for BuyOrder");
-    console.log(info);
+    console.log(buyOrder.naturalKey);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
-    smart.info = JSON.stringify({ buyOrder: info });
+    smart.info = JSON.stringify({ buyOrder });
     smart.stepAt += returnCode;
     await smart.save();
     return;
@@ -75,7 +76,7 @@ async function handleBuyOrder(type, company, exec) {
 
 async function handleSellOrder(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     const info = JSON.parse(exec.info);
     const [returnCode, sellOrderId] = await client.generateSellOrder(
@@ -98,7 +99,7 @@ async function handleSellOrder(type, company, exec) {
 
 async function handleDeliveryNote(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     console.log("Emiting Delivery Note not Supported");
     return 0;
@@ -111,7 +112,7 @@ async function handleDeliveryNote(type, company, exec) {
     console.log(returnCode);
     if (returnCode == 0) return 0;
     console.log("Looking for Delivery Note");
-    console.log(deliveryNote);
+    console.log(deliveryNote.naturalKey);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
     info.deliveryNote = deliveryNote;
@@ -125,7 +126,7 @@ async function handleDeliveryNote(type, company, exec) {
 
 async function handleOrderReceipt(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     const info = JSON.parse(exec.info);
     const [returnCode, orderReceiptId] = await client.generateOrderReceipt(
@@ -148,7 +149,7 @@ async function handleOrderReceipt(type, company, exec) {
 
 async function handleInvoice(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     console.log("Emiting Invoice not Supported");
     return 0;
@@ -160,7 +161,7 @@ async function handleInvoice(type, company, exec) {
       info.deliveryNote.naturalKey
     );
     if (returnCode == 0) return 0;
-    console.log(invoice);
+    console.log(invoice.naturalKey);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
     info.invoice = invoice;
@@ -174,11 +175,10 @@ async function handleInvoice(type, company, exec) {
 
 async function handleInvoiceReceipt(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     const info = JSON.parse(exec.info);
     const [returnCode, invoiceReceiptId] = await client.generateInvoiceReceipt(
-      info.orderReceipt,
       info.buyOrder
     );
     console.log("Emitted invoice receipt");
@@ -198,7 +198,7 @@ async function handleInvoiceReceipt(type, company, exec) {
 
 async function handlePayment(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     console.log("Emitting payment not supported");
     return 0;
@@ -207,7 +207,7 @@ async function handlePayment(type, company, exec) {
     console.log("Looking for payment");
     const [returnCode, payment] = await client.getPayment(info.orderReceipt);
     if (returnCode == 0) return 0;
-    console.log(payment);
+    console.log(payment.naturalKey);
     console.log(returnCode);
     const smart = await sequelize.models.Execution.findByPk(exec.id);
     info.payment = payment;
@@ -221,7 +221,7 @@ async function handlePayment(type, company, exec) {
 
 async function handleReceipt(type, company, exec) {
   const client = company == 1 ? client1() : client2();
-  console.log(client);
+
   if (type == "emit") {
     const info = JSON.parse(exec.info);
     const [returnCode, paymentReceiptId] = await client.generateReceipt(

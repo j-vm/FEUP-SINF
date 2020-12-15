@@ -2,7 +2,6 @@ const koaRouter = require("koa-router");
 const router = new koaRouter();
 
 const { sequelize } = require("../db");
-const models = require("../jasmin/models");
 
 const processExecuter = require("../execution/executer");
 

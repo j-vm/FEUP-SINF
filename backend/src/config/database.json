@@ -4,6 +4,7 @@
     "password": "intercompany",
     "database": "intercompany_development",
     "host": "postgres",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   }
 }

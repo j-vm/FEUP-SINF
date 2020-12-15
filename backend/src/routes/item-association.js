@@ -12,7 +12,6 @@ router.get("/", async (ctx) => {
 });
 
 router.post("/", async (ctx) => {
-  console.log(ctx.request.body);
   const { company1Id, company2Id } = ctx.request.body;
   const model = await sequelize.models.ItemAssociation.create({
     company1Id,

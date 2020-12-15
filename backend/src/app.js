@@ -51,11 +51,19 @@ const { sequelize } = require("./db");
   client2Docs = client2Docs.map((key) => {
     return { key, company: 2 };
   });
-  await sequelize.models.SeenDocument.bulkCreate([
-    ...client1Docs,
-    ...client2Docs,
-  ]);
+  const seenDocuments = [...client1Docs, ...client2Docs];
+  console.log(
+    "Startup: these documents are already present in Jasmin, the engine will ignore them for any executions:"
+  );
+  console.log(seenDocuments);
+  await sequelize.models.SeenDocument.bulkCreate(seenDocuments);
 })().then(() => {
+  const INTERVAL = 20_000;
+  console.log(
+    `Startup: schedulling execution polling to run every ${
+      INTERVAL / 1000
+    } seconds.`
+  );
   const processExecuter = require("./execution/executer");
   setInterval(async () => {
     const executions = await sequelize.models.Execution.findAll({
@@ -69,9 +77,14 @@ const { sequelize } = require("./db");
         });
       })
     );
-
+    console.log(
+      `Polling the following executions: ${executions.map(
+        (execution) =>
+          `Execution { id: ${execution.id}, process: ${execution.processId}, step: ${execution.stepAt} }`
+      )}`
+    );
     processExecuter.runExecutions(executions, stepsToRun);
-  }, 20_000);
+  }, INTERVAL);
 });
 
 const koaJson = require("koa-json");
