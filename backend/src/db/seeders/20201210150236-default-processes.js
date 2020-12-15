@@ -92,7 +92,7 @@ module.exports = {
               order: 3,
               processId: 1,
               type: "emit",
-              documentType: "warehouseReception",
+              documentType: "orderReceipt",
               company: 1,
               createdAt: date,
               updatedAt: date,
