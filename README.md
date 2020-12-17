@@ -4,6 +4,22 @@
 
 This WebApp was developed within the course project for Information Systems (SINF - EIC0040) of the Integrated Masters in Informatics and Computing Engineering (MIEIC) at the Faculty of Engineering of the University of Porto (FEUP), supervised by Professor Luís Barros.
 
+## Technologies used
+
+Backend:
+ * NodeJS
+ * Koa (router)
+ * Sequelize (ORM)
+
+Frontend
+ * React (create-react-app)
+ * Bootstrap (reactstrap)
+
+Database
+ * PostgreSQL
+ * pgadmin
+
+Gateway: Caddy in reverse-proxy mode
 ## About our WebApp
 
 <img align="left" height="170" src="/docs/besinff.png">
@@ -17,7 +33,32 @@ The **main aim of BESINF** is to develop an interface that allows companies to *
 For the validation of the project, we used two fictitious companies both utilizing Jasmin. These companies are **Ksede**, which bottles up and sells beverages, and **BottleFlip**, that sells bottles. The companies **interact in two key ways**, **KSede buys bottles from BottleFlip** for the production of their products and **BottleFlip rents their factory space from KSede**, who owns the building where they both operate.
 
 ### Run
-Run ``docker-compose up`` in the root of the project.
+Provide a .env file in the root of the backend folder, with the following information:
+
+```bash
+# app-specific settings
+# this secret is used to sign the JSON web tokens used for auhtenticating backend users
+JWT_SECRET=a-secret-key
+APP_PORT=3000
+# company 1 credentials
+# you can get these credentials after creating your app on the Primavera publisher website
+JASMIN_APP1_KEY=your-app-key
+JASMIN_APP1_SECRET=your-app-secret
+# these are the account details of a company in Jasmin
+JASMIN_ACCOUNT1=012345
+JASMIN_SUBSCRIPTION1=012345-0001
+# company 2 credentials
+JASMIN_APP2_KEY=your-app-key
+JASMIN_APP2_SECRET=your-app-secret
+JASMIN_ACCOUNT2=012345
+JASMIN_SUBSCRIPTION2=012345-0001
+```
+
+Build the containers with `docker-compose build`
+
+Run `docker-compose up` in the root of the project to start up the frontend and backend.
+This will also start up a postgres database, run migrations and seeding on it, a pgadmin
+instance, as well as a reverse proxy (Caddy).
 
 ## :wrench: Features
 
