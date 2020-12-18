@@ -49,7 +49,7 @@ export const About = () => {
       </div>
       <div class="row mt-5">
         <div class="col-9">
-          <h5 class="font-weight-bold">Elementos do grupo:</h5>
+          <h5 class="font-weight-bold">Group Elements:</h5>
           <ul>
             <li>Bernardo Oliveira Teixeira Santos - up201504711@fe.up.pt</li>
             <li>João Nuno Carvalho de Matos - up201705471@fe.up.pt </li>
