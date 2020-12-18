@@ -22,7 +22,7 @@ Database
 Gateway: Caddy in reverse-proxy mode
 ## About our WebApp
 
-<img align="left" height="170" src="/docs/besinff.png">
+<img align="left" height="170" src="/docs/resources/besinf_logo.png">
 
 **BESINF** is based on a fundamental pillar: **garantee our customer's comfort**. We provide a service that automates the business interaction between companies and integrates with **PRIMAVERA's ERP software**.
 
@@ -89,16 +89,16 @@ instance, as well as a reverse proxy (Caddy).
 
 ## :computer: Core Views
 <p align="center">
-  <img src="/docs/login.png" width="450" />
-  <img src="/docs/info.png" width="450" /> 
+  <img src="/docs/resources/views/login.png" width="450" />
+  <img src="/docs/resources/views/info.png" width="450" /> 
 </p>
 <p align="center">
-  <img src="/docs/process.png" width="450" />
-  <img src="/docs/step.png" width="450" />     
+  <img src="/docs/resources/views/process.png" width="450" />
+  <img src="/docs/resources/views/step.png" width="450" />     
 </p>
 <p align="center">
-  <img src="/docs/sync.png" width="450" />
-  <img src="/docs/log.png" width="450" />     
+  <img src="/docs/resources/views/sync.png" width="450" />
+  <img src="/docs/resources/views/log.png" width="450" />     
 </p>
 
 
