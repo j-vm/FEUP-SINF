@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0gxu8em" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="7.3.0">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0gxu8em" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="8.0.0">
   <bpmn:collaboration id="Collaboration_18hj7p6">
     <bpmn:participant id="Participant_13o2g9m" name="KSede" processRef="Process_1cfdxzp" />
     <bpmn:participant id="Participant_02z3g5l" name="BottleFlip" processRef="Process_1wbyhrn" />
@@ -30,6 +30,7 @@
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:intermediateCatchEvent id="Event_1tzv5us" name="Receive Delivery Note">
+      <bpmn:incoming>Flow_1oervc2</bpmn:incoming>
       <bpmn:outgoing>Flow_0992kgz</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1rfwzgw" />
     </bpmn:intermediateCatchEvent>
@@ -44,13 +45,16 @@
     <bpmn:dataObject id="DataObject_05v9fek" />
     <bpmn:intermediateThrowEvent id="Event_0exy3rj" name="Send Order Receipt">
       <bpmn:incoming>Flow_1fhi8gm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vfsbzf</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_19jgswp" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateThrowEvent id="Event_1oleqe3" name="Send Buy Order">
       <bpmn:incoming>Flow_1hssiwf</bpmn:incoming>
+      <bpmn:outgoing>Flow_1oervc2</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0r8mpwj" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateCatchEvent id="Event_17mv761" name="Receive Invoice">
+      <bpmn:incoming>Flow_0vfsbzf</bpmn:incoming>
       <bpmn:outgoing>Flow_13ahdch</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_1h10olr">
         <bpmn:targetRef>DataObjectReference_0r0qu3w</bpmn:targetRef>
@@ -70,9 +74,11 @@
     <bpmn:dataObject id="DataObject_1cf2xhb" />
     <bpmn:intermediateThrowEvent id="Event_19onae9" name="Send Proof of Payment">
       <bpmn:incoming>Flow_16yth3p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dcpwd8</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1x4cnib" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateCatchEvent id="Event_0i92qbx" name="Receive Payment Receipt">
+      <bpmn:incoming>Flow_0dcpwd8</bpmn:incoming>
       <bpmn:outgoing>Flow_19elecz</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_00bdggb" />
     </bpmn:intermediateCatchEvent>
@@ -99,6 +105,9 @@
       <bpmn:incoming>Flow_19elecz</bpmn:incoming>
       <bpmn:terminateEventDefinition id="TerminateEventDefinition_0o030o7" />
     </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1oervc2" sourceRef="Event_1oleqe3" targetRef="Event_1tzv5us" />
+    <bpmn:sequenceFlow id="Flow_0vfsbzf" sourceRef="Event_0exy3rj" targetRef="Event_17mv761" />
+    <bpmn:sequenceFlow id="Flow_0dcpwd8" sourceRef="Event_19onae9" targetRef="Event_0i92qbx" />
   </bpmn:process>
   <bpmn:process id="Process_1wbyhrn">
     <bpmn:laneSet id="LaneSet_10k62by">
@@ -136,9 +145,11 @@
     <bpmn:dataObject id="DataObject_0999thg" />
     <bpmn:intermediateThrowEvent id="Event_108ss8k" name="Send Delivery Note">
       <bpmn:incoming>Flow_17fiehl</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hxpfce</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_18bv4op" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateCatchEvent id="Event_1wsjjcr" name="Receive Order Receipt">
+      <bpmn:incoming>Flow_1hxpfce</bpmn:incoming>
       <bpmn:outgoing>Flow_0yeklyh</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1ujjqmh" />
     </bpmn:intermediateCatchEvent>
@@ -153,6 +164,7 @@
     <bpmn:dataObject id="DataObject_108xdhp" />
     <bpmn:intermediateThrowEvent id="Event_0bwlduc" name="Send Invoice">
       <bpmn:incoming>Flow_06w1klc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1buh3vd</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_126huq6" />
     </bpmn:intermediateThrowEvent>
     <bpmn:task id="Activity_1rkbqsp" name="Generate Delivery Note">
@@ -176,6 +188,7 @@
     <bpmn:dataObjectReference id="DataObjectReference_0hcea9k" name="Sell Order" dataObjectRef="DataObject_1crtgeg" />
     <bpmn:dataObject id="DataObject_1crtgeg" />
     <bpmn:intermediateCatchEvent id="Event_0664r4s" name="Receive Proof of Payment">
+      <bpmn:incoming>Flow_1buh3vd</bpmn:incoming>
       <bpmn:outgoing>Flow_1sm2drh</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1ooog6i" />
     </bpmn:intermediateCatchEvent>
@@ -217,6 +230,8 @@
       <bpmn:incoming>Flow_0deo6bz</bpmn:incoming>
       <bpmn:terminateEventDefinition id="TerminateEventDefinition_0uf1ss1" />
     </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1buh3vd" sourceRef="Event_0bwlduc" targetRef="Event_0664r4s" />
+    <bpmn:sequenceFlow id="Flow_1hxpfce" sourceRef="Event_108ss8k" targetRef="Event_1wsjjcr" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_18hj7p6">
@@ -258,6 +273,21 @@
         <di:waypoint x="270" y="430" />
         <di:waypoint x="290" y="430" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oervc2_di" bpmnElement="Flow_1oervc2">
+        <di:waypoint x="518" y="430" />
+        <di:waypoint x="785" y="430" />
+        <di:waypoint x="785" y="230" />
+        <di:waypoint x="1052" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vfsbzf_di" bpmnElement="Flow_0vfsbzf">
+        <di:waypoint x="1368" y="230" />
+        <di:waypoint x="1470" y="230" />
+        <di:waypoint x="1470" y="402" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dcpwd8_di" bpmnElement="Flow_0dcpwd8">
+        <di:waypoint x="1728" y="420" />
+        <di:waypoint x="1932" y="420" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1gztc1e_di" bpmnElement="Event_1tzv5us">
         <dc:Bounds x="1052" y="212" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -282,13 +312,13 @@
       <bpmndi:BPMNShape id="Event_1s9ne6p_di" bpmnElement="Event_1oleqe3">
         <dc:Bounds x="482" y="412" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="520" y="423" width="79" height="14" />
+          <dc:Bounds x="459" y="388" width="81" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_17exp9j_di" bpmnElement="Event_17mv761">
         <dc:Bounds x="1452" y="402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1432" y="383" width="77" height="14" />
+          <dc:Bounds x="1429" y="373" width="78" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataObjectReference_0r0qu3w_di" bpmnElement="DataObjectReference_0r0qu3w">
@@ -399,6 +429,16 @@
         <di:waypoint x="518" y="720" />
         <di:waypoint x="580" y="720" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1buh3vd_di" bpmnElement="Flow_1buh3vd">
+        <di:waypoint x="1488" y="1170" />
+        <di:waypoint x="1692" y="1170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hxpfce_di" bpmnElement="Flow_1hxpfce">
+        <di:waypoint x="1088" y="900" />
+        <di:waypoint x="1210" y="900" />
+        <di:waypoint x="1210" y="960" />
+        <di:waypoint x="1332" y="960" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Gateway_1p4f0b2_di" bpmnElement="Gateway_0hgb4g1">
         <dc:Bounds x="759" y="875" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -420,7 +460,7 @@
       <bpmndi:BPMNShape id="Event_0w1usud_di" bpmnElement="Event_1wsjjcr">
         <dc:Bounds x="1332" y="942" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1254" y="950" width="71" height="27" />
+          <dc:Bounds x="1377.5" y="946" width="73" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0cwhnjp_di" bpmnElement="Activity_18msdh6">
