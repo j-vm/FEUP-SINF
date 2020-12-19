@@ -4,11 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { About } from "./pages/About";
 import { Login } from "./pages/Login";
-import { Layout } from "./components/Layout";
 import { NoMatch } from "./pages/NoMatch";
 import { ProvideAuth } from "./auth";
 import PrivateRoutes from "./pages/private";
-import NavBar from "./components/NavBar";
 
 class App extends Component {
   render() {

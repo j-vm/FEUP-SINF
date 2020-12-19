@@ -15,8 +15,8 @@ const AuthButton = (props) => {
     setState(value);
   };
   return (
-    <div class="mx-auto">
-      <div class="text-center">
+    <div className="mx-auto">
+      <div className="text-center">
         <Link to="/about">
           <Media middle href="#">
             <Media object src={ReactLogo} height="400" alt="logo" />
@@ -79,8 +79,8 @@ export const Login = () => {
   return auth && auth.token !== "" ? (
     <Redirect to="/app"></Redirect>
   ) : (
-    <Layout>
-      <AuthButton onSubmit={onSubmit}></AuthButton>
-    </Layout>
-  );
+      <Layout>
+        <AuthButton onSubmit={onSubmit}></AuthButton>
+      </Layout>
+    );
 };

@@ -8,15 +8,15 @@ import feup from "../feup.png";
 export const About = () => {
   return (
     <Layout>
-      <div class="row">
-        <div class="col-12 text-center">
+      <div className="row">
+        <div className="col-12 text-center">
           <Media middle href="#">
             <Media object src={ReactLogo} height="400" alt="logo" />
           </Media>
         </div>
       </div>
-      <div class="row" class="mt-5 text-justify">
-        <div class="col-12 mt-5 text-justify">
+      <div className="row mt-5 text-justify">
+        <div className="col-12 mt-5 text-justify">
           <p>
             <strong>BESINF</strong> is based on a fundamental pillar:{" "}
             <strong>garantee our customer's comfort</strong>. We provide a a
@@ -47,9 +47,9 @@ export const About = () => {
           </p>{" "}
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col-9">
-          <h5 class="font-weight-bold">Group Elements:</h5>
+      <div className="row mt-5">
+        <div className="col-9">
+          <h5 className="font-weight-bold">Group Elements:</h5>
           <ul>
             <li>Bernardo Oliveira Teixeira Santos - up201504711@fe.up.pt</li>
             <li>João Nuno Carvalho de Matos - up201705471@fe.up.pt </li>
@@ -58,14 +58,14 @@ export const About = () => {
             <li>Miguel Rodrigues Pires - up201406989@fe.up.pt</li>
           </ul>
         </div>
-        <div class="col-3 text-right">
+        <div className="col-3 text-right">
           <Media right href="#">
             <Media object src={feup} height="70" alt="feup" />
           </Media>
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col-12 text-center">
+      <div className="row mt-5">
+        <div className="col-12 text-center">
           <Link to="/app/info/" className="btn btn-info">
             Go Back
           </Link>
